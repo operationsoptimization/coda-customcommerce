@@ -683,3 +683,254 @@ $(document).ready(function() {
         }
     }
 });
+
+// ==========================================
+// WEBSTORE REDIRECT WARNING (CODASHOP MEXICO ONLY)
+// Runs only when the Mexico "Where did you make your purchase?" field is on the page;
+// on every other help center using this theme it exits immediately.
+// ==========================================
+(() => {
+  /* Webstore redirect warning — Codashop Mexico only (exits immediately on every other help center) */
+  const FIELD_IDS = ["17825880863119"];
+  const CODASHOP_TAGS = ["purchased_through_codashop_mx"];
+  const SUBMIT_SELECTOR = 'input[type="submit"][name="commit"]';
+  const WARNING_CLASS = "webstore-warning";
+  const HIDDEN_CLASS = "webstore-hidden";
+  const COMPACT_CLASS = "webstore-compact";
+  const BOTTOM_SPACING = 48;
+
+  const webstoreMappings = {
+    "purchased_through_cod_m_webstore_mx": { name: "COD:M", url: "https://codm-global-support.zendesk.com/hc/es" },
+    "purchased_through_ea_sports_fc_mobile_webstore_mx": { name: "EA Sports FC™ Mobile", url: "https://fc-mobile-mx-support-codapayments.zendesk.com/hc/es" },
+    "purchased_through_efootball_webstore_mx": { name: "eFootball™", url: "https://konami-webstore-support.zendesk.com/hc/en-us/categories/13549616536975-eFootball" },
+    "purchased_through_rainbow_six_mobile_webstore_mx": { name: "Rainbow Six Mobile", url: "https://rainbow-six-mobile-global-support.zendesk.com/hc/es/" },
+    "purchased_through_the_division_resurgence_webstore_webstore_mx": { name: "The Division Resurgence", url: "https://the-division-resurgence-global-support.zendesk.com/hc/es" },
+    "purchased_through_yu-gi-oh__master_duel_webstore_mx": { name: "Yu-Gi-Oh! MASTER DUEL", url: "https://konami-webstore-support.zendesk.com/hc/en-us/categories/13839148070159-Yu-Gi-Oh-Master-Duel" },
+    "purchased_through_yu-gi-oh__duel_links_webstore_mx": { name: "Yu-Gi-Oh! DUEL LINKS", url: "https://konami-webstore-support.zendesk.com/hc/en-us/categories/14697108082703" }
+  };
+
+  // Warning text per help center language (page language is read from <html lang> or the URL)
+  const STRINGS = {
+    en: {
+      before: (n) => `⚠️ For ${n} Webstore-related issues, please visit the `,
+      link: (n) => `${n} Webstore Help Center`,
+      after: ".",
+      generic: "⚠️ This form is only for Codashop purchases. Please contact the store where you made your purchase."
+    },
+    pt: {
+      before: (n) => `⚠️ Para problemas relacionados à ${n} Webstore, acesse a `,
+      link: (n) => `Central de Ajuda da ${n} Webstore`,
+      after: ".",
+      generic: "⚠️ Este formulário é apenas para compras feitas na Codashop. Entre em contato com a loja onde você fez sua compra."
+    },
+    es: {
+      before: (n) => `⚠️ Para problemas relacionados con ${n} Webstore, visita el `,
+      link: (n) => `Centro de Ayuda de ${n} Webstore`,
+      after: ".",
+      generic: "⚠️ Este formulario es solo para compras realizadas en Codashop. Comunícate con la tienda donde realizaste tu compra."
+    }
+  };
+
+  const getStrings = () => {
+    const lang = (document.documentElement.lang || window.location.pathname.split("/")[2] || "").toLowerCase();
+    if (lang.startsWith("pt")) return STRINGS.pt;
+    if (lang.startsWith("es")) return STRINGS.es;
+    return STRINGS.en;
+  };
+
+  const isAllowed = (value) => !value || value === "-" || CODASHOP_TAGS.includes(value);
+
+  const getInput = (id) =>
+    document.getElementById(`request_custom_fields_${id}`) ||
+    document.querySelector(`[name="request[custom_fields][${id}]"]`);
+
+  const getWrapper = (id, input) => {
+    const label = document.getElementById(`request_custom_fields_${id}_label`);
+    return (
+      document.querySelector(`.form-field.request_custom_fields_${id}, div.request_custom_fields_${id}`) ||
+      (label && label.closest(".form-field")) ||
+      (input && input.closest(".form-field")) ||
+      null
+    );
+  };
+
+  const isVisible = (el) => !!el && el.getClientRects().length > 0;
+
+  const isAfter = (reference, el) =>
+    el !== reference &&
+    !reference.contains(el) &&
+    !!(reference.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING);
+
+  const init = () => {
+    // Exit immediately on any page/help center without the Brazil field
+    if (!FIELD_IDS.some((id) => getInput(id))) return;
+
+    const style = document.createElement("style");
+    style.textContent =
+      `.${HIDDEN_CLASS}{display:none !important;}` +
+      `.${COMPACT_CLASS}{min-height:var(--webstore-min-h,0px) !important;}` +
+      `.${WARNING_CLASS}{margin:8px 0 0;padding:10px 12px;border-left:4px solid #e8a317;background:#fff7e0;color:#5a4300;font-size:14px;line-height:1.45;}` +
+      `.${WARNING_CLASS} .warning-hc-link{color:#1f5fbf;text-decoration:underline;}`;
+    document.head.appendChild(style);
+
+    let formIsBlocked = false;
+    let observer = null;
+
+    const fillWarning = (p, value) => {
+      p.textContent = "";
+      const mapping = webstoreMappings[value];
+      const t = getStrings();
+      if (mapping) {
+        const link = document.createElement("a");
+        link.href = mapping.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.className = "warning-hc-link";
+        link.textContent = t.link(mapping.name);
+        p.append(t.before(mapping.name), link, t.after);
+      } else {
+        p.append(t.generic);
+      }
+      p.dataset.value = value;
+    };
+
+    const placeWarning = (wrapper, warning) => {
+      const nestyBox = wrapper.querySelector(":scope > .nesty-input");
+      if (nestyBox) {
+        if (nestyBox.nextElementSibling !== warning) nestyBox.after(warning);
+      } else if (warning.parentElement !== wrapper) {
+        wrapper.appendChild(warning);
+      }
+    };
+
+    const evaluateField = (id) => {
+      const input = getInput(id);
+      const wrapper = getWrapper(id, input);
+      const warningId = `webstore-warning-${id}`;
+      let warning = document.getElementById(warningId);
+      const value = ((input && input.value) || "").trim();
+      const blocked = !!input && isVisible(wrapper) && !isAllowed(value);
+
+      if (!blocked) {
+        if (warning) warning.remove();
+        return null;
+      }
+      if (!warning) {
+        warning = document.createElement("div");
+        warning.id = warningId;
+        warning.style.setProperty("padding-bottom", `${BOTTOM_SPACING}px`, "important");
+        const message = document.createElement("p");
+        message.className = WARNING_CLASS;
+        message.setAttribute("role", "alert");
+        warning.appendChild(message);
+      }
+      const message = warning.querySelector(`.${WARNING_CLASS}`);
+      if (message.dataset.value !== value) fillWarning(message, value);
+      placeWarning(wrapper, warning);
+      return wrapper;
+    };
+
+    const evaluateAll = () => {
+      // 1. Undo our own hiding/compacting so checks see the theme's real state
+      document.querySelectorAll(`.${HIDDEN_CLASS}`).forEach((el) => el.classList.remove(HIDDEN_CLASS));
+      document.querySelectorAll(`.${COMPACT_CLASS}`).forEach((el) => {
+        el.style.removeProperty("--webstore-min-h");
+        el.classList.remove(COMPACT_CLASS);
+      });
+
+      // 2. Find the top-most blocking field
+      let blockingWrapper = null;
+      FIELD_IDS.forEach((id) => {
+        const wrapper = evaluateField(id);
+        if (wrapper && (!blockingWrapper || isAfter(wrapper, blockingWrapper))) blockingWrapper = wrapper;
+      });
+      formIsBlocked = !!blockingWrapper;
+
+      if (blockingWrapper) {
+        const form = blockingWrapper.closest("form");
+
+        // 3. Hide every field below the blocking field
+        (form || document).querySelectorAll(".form-field").forEach((field) => {
+          if (isAfter(blockingWrapper, field)) field.classList.add(HIDDEN_CLASS);
+        });
+
+        // 3b. Pin the site footer to the bottom of the screen
+        const siteFooter = [...document.querySelectorAll("footer")].find((f) => !(form && form.contains(f)));
+        let stretchEl = null;
+        for (let el = form; el && el !== document.body; el = el.parentElement) {
+          if (siteFooter && el.contains(siteFooter)) break;
+          if (parseFloat(getComputedStyle(el).minHeight) > 0) el.classList.add(COMPACT_CLASS);
+          stretchEl = el;
+        }
+        if (stretchEl && siteFooter) {
+          stretchEl.classList.add(COMPACT_CLASS);
+          const footerBottom = siteFooter.getBoundingClientRect().bottom + window.scrollY;
+          const shortfall = document.documentElement.clientHeight - footerBottom;
+          if (shortfall > 0) {
+            const height = stretchEl.getBoundingClientRect().height + shortfall;
+            stretchEl.style.setProperty("--webstore-min-h", `${Math.floor(height)}px`);
+          }
+        }
+      }
+
+      // 4. Disable + hide submit; on release, re-enable only buttons we disabled
+      document.querySelectorAll(SUBMIT_SELECTOR).forEach((btn) => {
+        if (formIsBlocked) {
+          btn.disabled = true;
+          btn.dataset.webstoreLocked = "true";
+          (btn.closest("footer") || btn).classList.add(HIDDEN_CLASS);
+        } else if (btn.dataset.webstoreLocked) {
+          delete btn.dataset.webstoreLocked;
+          btn.disabled = false;
+        }
+      });
+
+      // 5. Discard the mutations we just caused
+      if (observer) observer.takeRecords();
+    };
+
+    let scheduled = false;
+    const schedule = () => {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(() => {
+        scheduled = false;
+        evaluateAll();
+      });
+    };
+
+    document.addEventListener("change", schedule, true);
+    document.addEventListener("input", schedule, true);
+    if (window.jQuery) window.jQuery(document).on("change", schedule);
+
+    observer = new MutationObserver(schedule);
+    observer.observe(document.querySelector("form#new_request, form.request-form") || document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["style", "class", "hidden", "disabled"]
+    });
+
+    document.addEventListener(
+      "submit",
+      (event) => {
+        evaluateAll();
+        if (formIsBlocked && FIELD_IDS.some((id) => event.target.contains(getInput(id)))) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          const w = document.querySelector(`.${WARNING_CLASS}`);
+          if (w) w.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      },
+      true
+    );
+
+    evaluateAll();
+    window.addEventListener("load", schedule);
+    window.addEventListener("resize", schedule);
+  };
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
