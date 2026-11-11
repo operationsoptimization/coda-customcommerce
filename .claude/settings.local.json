@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "mcp__caveman__caveman_retrieve"
     ],
     "deny": [],
     "ask": []

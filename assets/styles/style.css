@@ -4,6 +4,7 @@
 @plugin "daisyui";
 @import "./article.css";
 @import "./forms.css";
+@import "./home.css";
 
 @font-face {
 	font-family: "scout_black";
@@ -67,6 +68,8 @@
 	--font-customized: $custom_font;
 	--font-ott: "ott";
 	--font-inter: "Inter, sans-serif";
+	--color-lavender: #eae8f7;
+	--color-accent-lime: #e8f953;
 }
 
 @layer base {

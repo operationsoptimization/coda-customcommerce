@@ -1,83 +1,91 @@
-<!-- Hero Section -->
-<section id="cc-hero-section" class="hero relative min-h-[550px] sm:min-h-[450px] overflow-visible z-0"
-  style="background-color: #280031;">
-  <div class="hero-overlay"></div>
-  <div
-    class="relative hero-content w-full max-w-5xl text-neutral-content text-center z-10 py-8 flex flex-col items-center justify-center">
-    <div class="w-full z-10">
-      <h1 class="mb-5 text-banner-text text-[48px] sm:text-[64px] font-ott font-bold">
-        {{dc 'hc_-_how_can_we_help'}}
-      </h1>
-      <h2 id="codee-resolve" class="mb-5 text-base sm:text-xl">
-        {{dc 'hc_-_codee_resolve'}}
-      </h2>
-      <button id="ask-codee"
-        class="bg-[#E8F953] !inline-flex text-brand font-bold text-xl btn w-max rounded-full px-[28px] py-[13px] sm:py-[16px]">
-        {{dc 'hc_-_chat_with_codee'}}
-      </button>
-    </div>
+<div id="hc-category" class="max-w-[1040px] mx-auto px-5 md:px-14 pt-9 pb-16 md:pb-[88px]">
+	<!-- Breadcrumb + compact search -->
+	<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
+		<nav class="flex items-center gap-2.5 text-[13.5px] text-black/55 min-w-0" aria-label="Breadcrumb">
+			<a href="{{page_path 'help_center'}}" class="text-black/55 hover:text-brand shrink-0">{{dc 'hc_-_help_center'}}</a>
+			<span aria-hidden="true">/</span>
+			<span class="truncate">{{category.name}}</span>
+		</nav>
+		<div class="hc-search hc-search--compact w-full md:w-[300px] flex-none" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+			<i class="ph ph-magnifying-glass hc-search-icon"></i>
+			{{search instant=true submit=false}}
+		</div>
+	</div>
 
-    <img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-      class="block md:hidden pointer-events-none select-none mt-10 self-end mr-4 -mb-8 w-[177px] min-[500px]:w-[222px] z-5">
-    <img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-      class="hidden md:block pointer-events-none select-none absolute -bottom-24 right-4 w-[222px] lg:w-[272px] z-5">
-  </div>
+	<h1 class="hc-hero-title mt-7 mb-0 text-[30px] md:text-[36px] leading-[1.1] font-semibold">{{category.name}}</h1>
 
-  <!-- Torn-paper edge: blends the hero into the page background -->
-  <img id="tear-desktop" src="{{asset 'tear.webp'}}" alt="tear background" aria-hidden="true"
-    class="hidden sm:block pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-  <img id="tear-mobile" src="{{asset 'tear-mobile.webp'}}" alt="tear background" aria-hidden="true"
-    class="block sm:hidden pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-</section>
+	<div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_280px] gap-12 md:gap-16 mt-8">
+		<div class="min-w-0">
+			{{#if category.description}}
+			<p class="m-0 max-w-[560px] !text-base leading-[1.6] text-black/60 [text-wrap:pretty]">{{category.description}}</p>
+			{{/if}}
+			<div id="hc-category-stats" class="hc-eyebrow mt-7" data-label="{{dc 'hc_-_category_stats'}}"></div>
 
-<section id="main-content" class="flex-1 min-h-[50dvh] max-md:w-full lg:w-full mx-auto px-5 py-8">
-  <div class="flex flex-col max-w-5xl mx-auto px-4 xl:px-0">
-    <!-- Breadcrumbs using Zendesk helper -->
-    <nav class="custom-breadcrumbs text-sm mb-6">
-      {{breadcrumbs}}
-    </nav>
+			<div class="flex flex-col gap-11 mt-4">
+				{{#each sections}}
+				<div class="hc-section">
+					<div class="flex items-baseline justify-between gap-5 border-b-[1.5px] border-brand pb-3">
+						<a href="{{url}}" class="text-[21px] font-semibold tracking-[-0.02em] text-brand">{{name}}</a>
+						<span class="hc-eyebrow hc-section-count flex-none tracking-[0.1em]" data-count="{{article_count}}"
+							data-label="{{dc 'hc_-_n_articles'}}">{{article_count}}</span>
+					</div>
+					<ul class="hc-section-articles">
+						{{#each sections}}
+						<li>
+							<a href="{{url}}" class="hc-row hc-row--lg">
+								<span>{{name}}</span>
+								<i class="ph ph-arrow-right"></i>
+							</a>
+						</li>
+						{{/each}}
+						{{#each articles}}
+						<li>
+							<a href="{{url}}" class="hc-row hc-row--lg">
+								<span>{{title}}</span>
+								<i class="ph ph-arrow-right"></i>
+							</a>
+						</li>
+						{{/each}}
+					</ul>
+					<a href="{{url}}" class="hc-see-all !mt-3.5" data-count="{{article_count}}"
+						data-label="{{dc 'hc_-_see_all_n_in_section'}}">{{dc 'hc_-_see_all_articles'}}</a>
+				</div>
+				{{/each}}
+			</div>
+		</div>
 
-    <div class="w-full flex flex-col gap-4 mt-8">
-      {{#if sections}}
-      <div class="w-full mb-4 border-b border-gray-300 pb-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {{#each sections}}
-          <a href="{{url}}"
-            class="btn btn-md h-[60px] flex items-center justify-between bg-brand text-white hover:bg-brand/90 rounded-lg text-start text-sm font-medium shadow-md subsection-btn">
-            <div class="flex items-center gap-3">
-              <i class="ph ph-folder text-lg"></i>
-              <span class="line-clamp-1">{{name}}</span>
-            </div>
-            <i class="ph ph-arrow-right"></i>
-          </a>
-          {{/each}}
-        </div>
-      </div>
-      {{/if}}
+		<aside class="min-w-0">
+			<div id="hc-other-topics" class="hidden">
+				<div class="hc-eyebrow text-black/50">{{dc 'hc_-_other_topics'}}</div>
+				<ul class="hc-topic-list mt-3"></ul>
+			</div>
 
-      {{#unless sections}}
-      <div class="text-center py-8">
-        <p class="text-main-text">No content available in this section yet.</p>
-      </div>
-      {{/unless}}
-    </div>
-  </div>
-</section>
+			{{#isnt settings.homepage_variant 'search_only'}}
+			<div class="mt-7 bg-lavender rounded-[20px] p-[22px]">
+				<h3 class="m-0 !text-base font-semibold text-brand">{{dc 'hc_-_faster_with_codee'}}</h3>
+				<p class="mt-2 mb-0 !text-[13.5px] leading-normal text-brand/80">{{dc 'hc_-_codee_card_text'}}</p>
+				<button id="ask-codee" type="button" class="hc-btn hc-btn--dark hc-btn--sm mt-4">{{dc 'hc_-_chat_with_codee'}}</button>
+			</div>
+			{{/isnt}}
+		</aside>
+	</div>
+</div>
 
+{{#isnt settings.homepage_variant 'search_only'}}
 <script defer type="text/javascript" src="https://prod-au-druid-cdn.azureedge.net/v2/druid_webchat_v2.js"></script>
 <script data-druid-language="{{settings.druid_lang}}" type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function (event) {
-    const botId = "{{settings.druid_bot_id}}".trim();
-    const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
-    const druidLang = "{{settings.druid_lang}}".trim();
+	document.addEventListener("DOMContentLoaded", function (event) {
+		const botId = "{{settings.druid_bot_id}}".trim();
+		const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
 
-    DruidWebchat_v2.init({
-      botId: botId,
-      baseUrl: "https://druidapi.au.druidplatform.com",
-      queryParams: botQueryParams,
-      UI: {
-        containerElement: document.getElementById('ask-codee')
-      }
-    });
-  });
+		DruidWebchat_v2.init({
+			botId: botId,
+			baseUrl: "https://druidapi.au.druidplatform.com",
+			queryParams: botQueryParams,
+			UI: {
+				containerElement: document.getElementById('ask-codee')
+			}
+		});
+	});
 </script>
+{{/isnt}}

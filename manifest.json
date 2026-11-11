@@ -1,7 +1,7 @@
 {
 	"name": "Coda Custom Commerce Theme",
 	"author": "Operations Optimization",
-	"version": "1.2.2",
+	"version": "1.3.0",
 	"api_version": 3,
 	"default_locale": "en-us",
 	"settings": [
@@ -54,6 +54,46 @@
 					"description": "Enter the support hour text",
 					"label": "Support hour text",
 					"value": "Support Hours: Monday to Sunday, 10:00 AM to 5:00 PM (local time)"
+				},
+				{
+					"identifier": "hc_label",
+					"type": "text",
+					"description": "Market name shown next to the logo and in the footer",
+					"label": "Help Center label",
+					"value": "Malaysia Help Center"
+				}
+			]
+		},
+		{
+			"label": "Homepage",
+			"variables": [
+				{
+					"identifier": "homepage_variant",
+					"type": "list",
+					"description": "Which chat options the homepage hero offers",
+					"label": "Homepage variant",
+					"options": [
+						{
+							"label": "Codee",
+							"value": "codee"
+						},
+						{
+							"label": "Codee + WhatsApp",
+							"value": "codee_whatsapp"
+						},
+						{
+							"label": "Search only (no Codee)",
+							"value": "search_only"
+						}
+					],
+					"value": "codee"
+				},
+				{
+					"identifier": "whatsapp_link",
+					"type": "text",
+					"description": "WhatsApp chat URL, used by the Codee + WhatsApp variant",
+					"label": "WhatsApp link",
+					"value": "https://wa.me/"
 				}
 			]
 		},
@@ -154,21 +194,21 @@
 					"type": "color",
 					"description": "background_color_description",
 					"label": "background_color_label",
-					"value": "#EAE8F7"
+					"value": "#ffffff"
 				},
 				{
 					"identifier": "navbar_background_color",
 					"type": "color",
 					"description": "navbar_background_color_description",
 					"label": "navbar_background_color_label",
-					"value": "#EAE8F7"
+					"value": "#ffffff"
 				},
 				{
 					"identifier": "footer_background_color",
 					"type": "color",
 					"description": "footer_background_color_description",
 					"label": "footer_background_color_label",
-					"value": "#EAE8F7"
+					"value": "#ffffff"
 				},
 				{
 					"identifier": "accordion_background_color",

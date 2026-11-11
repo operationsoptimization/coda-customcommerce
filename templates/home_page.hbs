@@ -1,126 +1,136 @@
-<!-- Hero Section -->
-<section id="cc-hero-section" class="hero relative min-h-[550px] sm:min-h-[450px] overflow-visible z-0"
-	style="background-color: #280031;">
-	<div class="hero-overlay"></div>
-	<div
-		class="relative hero-content w-full max-w-5xl text-neutral-content text-center z-10 py-8 flex flex-col items-center justify-center">
-		<div class="w-full z-10">
-			<h1 class="mb-5 text-banner-text text-[48px] sm:text-[64px] font-ott font-bold">
+<!-- Hero -->
+{{#is settings.homepage_variant 'search_only'}}
+<section id="hc-hero" class="bg-brand text-white px-5 md:px-14 pt-12 pb-14 md:pt-16 md:pb-[72px]">
+	<div class="max-w-[1040px] mx-auto">
+		<h1 class="hc-hero-title m-0 text-[34px] md:text-[48px] leading-[1.06] font-semibold text-white">
+			{{dc 'hc_-_how_can_we_help'}}
+		</h1>
+		<p class="mt-4 max-w-[520px] !text-[15px] md:!text-[17px] leading-[1.55] text-lavender">
+			{{dc 'hc_-_search_hero_text'}}
+		</p>
+		<div class="hc-search hc-search--hero mt-8 max-w-[720px]" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+			<i class="ph ph-magnifying-glass hc-search-icon"></i>
+			{{search instant=true submit=true}}
+		</div>
+	</div>
+</section>
+{{else}}
+<section id="hc-hero" class="bg-brand text-white px-5 md:px-14 pt-10 pb-20 md:pt-[76px] md:pb-[104px]">
+	<div class="max-w-[1040px] mx-auto flex items-center gap-6 md:gap-14">
+		<div class="flex-1 min-w-0">
+			<h1 class="hc-hero-title m-0 md:mt-[18px] text-[34px] md:text-[52px] leading-[1.04] font-semibold text-white">
 				{{dc 'hc_-_how_can_we_help'}}
 			</h1>
-			<h2 id="codee-resolve" class="mb-5 text-base sm:text-xl">
-				{{dc 'hc_-_codee_resolve'}}
-			</h2>
-			<button id="ask-codee"
-				class="bg-[#E8F953] !inline-flex text-brand font-bold text-xl btn w-max rounded-full px-[28px] py-[13px] sm:py-[16px]">
-				{{dc 'hc_-_chat_with_codee'}}
-			</button>
+			<p class="mt-[18px] max-w-[440px] !text-[15px] md:!text-[17px] leading-[1.55] text-lavender [text-wrap:pretty]">
+				{{dc 'hc_-_codee_hero_text'}}
+			</p>
+			<div class="hidden md:flex items-center gap-3.5 mt-8 flex-wrap">
+				<button id="ask-codee" type="button" class="hc-btn hc-btn--lime">{{dc 'hc_-_chat_with_codee'}}</button>
+				{{#is settings.homepage_variant 'codee_whatsapp'}}
+				<a href="{{settings.whatsapp_link}}" target="_blank" rel="noopener" class="hc-btn hc-btn--outline-light">
+					<i class="ph-fill ph-whatsapp-logo text-xl"></i>
+					{{dc 'hc_-_chat_on_whatsapp'}}
+				</a>
+				{{/is}}
+			</div>
+			{{#is settings.homepage_variant 'codee_whatsapp'}}
+			<p class="hidden md:block mt-4 max-w-[440px] !text-sm leading-normal text-lavender opacity-70">
+				{{dc 'hc_-_whatsapp_note'}}
+			</p>
+			{{/is}}
+		</div>
+		<img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
+			class="w-[112px] md:w-[300px] h-auto flex-none block pointer-events-none select-none">
+	</div>
+	<!-- Mobile: buttons sit below the heading row -->
+	<div class="md:hidden max-w-[1040px] mx-auto mt-6 flex flex-col gap-3">
+		<button id="ask-codee-mobile" type="button" class="hc-btn hc-btn--lime w-full">{{dc 'hc_-_chat_with_codee'}}</button>
+		{{#is settings.homepage_variant 'codee_whatsapp'}}
+		<a href="{{settings.whatsapp_link}}" target="_blank" rel="noopener" class="hc-btn hc-btn--outline-light w-full">
+			<i class="ph-fill ph-whatsapp-logo text-xl"></i>
+			{{dc 'hc_-_chat_on_whatsapp'}}
+		</a>
+		<p class="!text-[13px] leading-normal text-lavender opacity-70">{{dc 'hc_-_whatsapp_note'}}</p>
+		{{/is}}
+	</div>
+</section>
+
+<div class="relative z-[5] -mt-10 px-5 md:px-14">
+	<div class="max-w-[1040px] mx-auto bg-white border border-brand/14 rounded-[20px] p-3 md:p-4">
+		<div class="hc-search hc-search--card" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+			<i class="ph ph-magnifying-glass hc-search-icon"></i>
+			{{search instant=true submit=true}}
+		</div>
+	</div>
+</div>
+{{/is}}
+
+<!-- Browse help articles -->
+<section id="hc-browse" class="px-5 md:px-14 pt-12 md:pt-[72px] pb-6">
+	<div class="max-w-[1040px] mx-auto">
+		<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-6 border-b border-brand/12 pb-[18px]">
+			<h2 class="m-0 text-[22px] md:text-[26px] font-semibold tracking-[-0.02em]">{{dc 'hc_-_browse_help_articles'}}</h2>
+			<span id="hc-stats" class="text-sm text-black/55" data-label="{{dc 'hc_-_hc_stats'}}"></span>
 		</div>
 
-		<!-- Mobile Codee -->
-		<img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-			class="block md:hidden pointer-events-none select-none mt-10 self-end mr-4 -mb-8 w-[177px] min-[500px]:w-[222px] z-5">
-		<!-- Desktop Codee -->
-		<img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-			class="hidden md:block pointer-events-none select-none absolute -bottom-28 right-4 w-[222px] lg:w-[272px] z-5">
-	</div>
-
-	<!-- Torn-paper edge: blends the hero into the page background -->
-	<img id="tear-desktop" src="{{asset 'tear.webp'}}" alt="tear background" aria-hidden="true"
-		class="hidden sm:block pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-	<img id="tear-mobile" src="{{asset 'tear-mobile.webp'}}" alt="tear background" aria-hidden="true"
-		class="block sm:hidden pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-</section>
-
-{{#if settings.show_popular_section}}
-<section id="popular-resource-section" class="hidden max-w-5xl max-md:w-full lg:w-full mx-auto px-4 md:px-10 py-12">
-	<div class="flex flex-col items-center">
-		{{dc 'hc_-_popular_resources'}}
-		{{#if (compare promoted_articles.length ">" 0)}}
-		<ul class="w-full list mt-8 gap-4">
-			{{#each promoted_articles}}
-			<li id="article-{{id}}">
-				<a href="{{url}}"
-					class="btn btn-md h-[50px] flex items-center justify-between border-2 border-brand bg-brand/80 hover:bg-brand transition-colors rounded-lg text-cta-text text-start text-sm line-clamp-1 leading-4 shadow-sm">
-					{{title}}
-					<i class="ph ph-arrow-right"></i>
+		<div class="hc-cat-grid grid grid-cols-1 md:grid-cols-2 gap-x-[72px] gap-y-12 md:gap-y-14 mt-9 md:mt-11">
+			{{#each categories}}
+			<div class="hc-cat min-w-0">
+				<div class="flex items-center gap-3">
+					<span class="hc-cat-badge" aria-hidden="true"></span>
+					<h3 class="m-0 text-[19px] font-semibold tracking-[-0.015em]">
+						<a href="{{url}}" class="text-black">{{name}}</a>
+					</h3>
+				</div>
+				{{#if description}}
+				<p class="mt-2.5 !text-sm leading-normal text-black/55 [text-wrap:pretty]">{{description}}</p>
+				{{/if}}
+				<ul class="hc-cat-articles mt-3.5">
+					{{#each sections}}
+					{{#each articles}}
+					<li>
+						<a href="{{url}}" class="hc-row">
+							<span>{{title}}</span>
+							<i class="ph ph-arrow-right"></i>
+						</a>
+					</li>
+					{{/each}}
+					{{/each}}
+				</ul>
+				<a href="{{url}}" class="hc-see-all" data-category-id="{{id}}" data-label="{{dc 'hc_-_see_all_n_articles'}}">
+					{{dc 'hc_-_see_all_articles'}}
 				</a>
-			</li>
+			</div>
 			{{/each}}
-		</ul>
-		{{/if}}
+		</div>
 	</div>
 </section>
-{{/if}}
 
-<section id="self-service-articles-section" class="max-w-5xl max-md:w-full lg:w-full mx-auto px-5 py-8">
-	<div class="flex flex-col items-center">
-		<span class="font-inter">
-			{{dc 'hc_-_self_service_support'}}
-		</span>
-		<div class="w-full mt-6 space-y-8 flex justify-center">
-			<div class="search-wrapper relative max-sm:w-full sm:w-1/2 mx-auto z-0">
-				<i
-					class="ph ph-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none z-5"></i>
-				{{search
-				instant=true
-				class="input w-full focus-within:outline-brand !text-black rounded-[26px] h-12 py-1 pl-11"
-				}}
+<!-- Assistance -->
+<section id="hc-assist" class="px-5 md:px-14 pt-12 md:pt-16 pb-16 md:pb-[88px]">
+	<div class="max-w-[1040px] mx-auto bg-lavender rounded-3xl px-6 py-8 md:px-12 md:py-11 flex flex-col md:flex-row md:items-center gap-6 md:gap-12">
+		<div class="flex-1 min-w-0">
+			<div class="hc-assist-title">{{dc 'hc_-_need_assistance'}}</div>
+			<div class="hc-assist-hours mt-3 max-w-[520px] text-[15px] leading-[1.55] text-brand/80">
+				{{#is settings.homepage_variant 'search_only'}}
+				{{dc 'hc_-_support_hours_differ'}}
+				{{else}}
+				{{settings.support_hour}}
+				{{/is}}
 			</div>
 		</div>
-
-		<div class="w-full mt-8 grid grid-cols-1 md:grid-cols-6 gap-6">
-			{{#if settings.show_category}}
-			{{#each categories}}
-			<a href="{{url}}" class="{{#if (compare @index '<' 3)}}md:col-span-2{{else}}md:col-span-3{{/if}} rounded-2xl
-								border border-brand bg-transparent p-6 text-center shadow-sm transition hover:border-brand hover:shadow-md">
-				<h3 class="text-lg font-bold text-accordion-text">{{name}}</h3>
-				{{#if description}}
-				<p class="mt-2 text-sm text-accordion-text font-light">{{description}}</p>
-				{{/if}}
-			</a>
-			{{/each}}
-			{{/if}}
-
-
-			{{#if settings.show_section}}
-			{{#each categories}}
-			{{#each sections}}
-			<a href="{{url}}" class="{{#if (compare @index '<' 3)}}md:col-span-2{{else}}md:col-span-3{{/if}} rounded-2xl
-											border border-brand bg-transparent p-6 text-center shadow-sm transition hover:border-brand hover:shadow-md">
-				<h3 class="text-lg font-bold text-accordion-text">{{name}}</h3>
-				{{#if description}}
-				<p class="mt-2 text-sm text-accordion-text font-light">{{description}}</p>
-				{{/if}}
-			</a>
-			{{/each}}
-			{{/each}}
-			{{/if}}
-		</div>
-	</div>
-</section>
-
-<section id="need-assistance-section" class="max-w-5xl max-md:w-full md:w-2/3 lg:w-full mx-auto px-5 py-8">
-	<div class="flex flex-col items-center text-center gap-10">
-		<div class="flex flex-col items-center gap-4">
-			{{dc 'hc_-_need_assistance'}}
-			<p class="text-[14px] sm:text-[16px]">
-				{{settings.support_hour}}
-			</p>
-		</div>
-		<a href="{{page_path 'new_request'}}"
-			class="btn bg-transparent max-[475px]:w-full hover:bg-brand border-brand shadow-none text-brand text-[16px] sm:text-lg hover:text-white rounded-xl min-[475px]:rounded-full px-10 py-4">
+		<a href="{{page_path 'new_request'}}" class="hc-btn hc-btn--dark max-md:w-full">
 			{{dc 'hc_standard_-_submit_a_request_button'}}
 		</a>
 	</div>
 </section>
 
+{{#isnt settings.homepage_variant 'search_only'}}
 <script defer type="text/javascript" src="https://prod-au-druid-cdn.azureedge.net/v2/druid_webchat_v2.js"></script>
 <script data-druid-language="{{settings.druid_lang}}" type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function (event) {
 		const botId = "{{settings.druid_bot_id}}".trim();
 		const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
-		const druidLang = "{{settings.druid_lang}}".trim();
 
 		DruidWebchat_v2.init({
 			botId: botId,
@@ -130,5 +140,12 @@
 				containerElement: document.getElementById('ask-codee')
 			}
 		});
+
+		// The mobile button opens the same chat as the desktop one.
+		const mobileBtn = document.getElementById('ask-codee-mobile');
+		if (mobileBtn) mobileBtn.addEventListener('click', function () {
+			document.getElementById('ask-codee').click();
+		});
 	});
 </script>
+{{/isnt}}

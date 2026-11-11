@@ -1,36 +1,20 @@
-<footer id="footer-v2" class="max-w-5xl mx-auto bg-footer-bg text-brand px-5 py-8">
-	<hr class="block sm:hidden w-full h-4 px-5 border-t-2 border-gray-300">
-	</hr>
-	<div class="w-full flex items-center justify-between gap-4">
-		<aside class="flex flex-col items-start gap-1">
-			{{#if settings.show_terms_link}}
-			<a href="{{settings.privacy_link}}" class="link link-hover text-sm font-semibold"> {{dc 'hc_-_privacy_policy'}}
+<footer id="hc-footer" class="border-t border-brand/12 px-5 md:px-14 pt-8 pb-11">
+	<div class="max-w-[1040px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
+		<div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-7">
+			<a href="{{page_path 'help_center'}}" class="block w-max">
+				<img src="{{settings.logo}}" alt="{{settings.brand_name}}" class="h-5 w-auto block opacity-75" />
 			</a>
-			{{/if}}
-			{{#if settings.show_pp_link}}
-			<a href="{{settings.terms_link}}" class="link link-hover text-sm font-semibold">
-				{{dc 'hc_-_terms_and_conditions'}}
-			</a>
-			{{/if}}
-		</aside>
-		<nav class="">
-			{{#if alternative_locales}}
-			<details class="dropdown dropdown-top dropdown-end">
-				<summary class="btn max-w-[250px] btn-ghost btn-brand flex items-center hover:bg-brand hover:text-white">
-					<i class="max-sm:hidden ph ph-globe text-xl"></i>
-					<span class="text-start text-sm">
-						{{current_locale.name}}
-					</span>
-					<i class="ph ph-caret-down text-sm"></i>
-				</summary>
-				<ul
-					class="w-54 menu dropdown-content bg-footer-bg shadow-sm border border-brand p-2 max-h-[400px] overflow-y-scroll rounded-xl">
-					{{#each alternative_locales}}
-					<li><a href="{{url}}" dir="{{direction}}" class="text-brand text-sm">{{name}}</a></li>
-					{{/each}}
-				</ul>
-			</details>
-			{{/if}}
-		</nav>
+			<nav class="flex flex-wrap items-center gap-x-7 gap-y-2">
+				<a href="{{page_path 'help_center'}}" class="hc-footer-link">{{dc 'hc_-_all_topics'}}</a>
+				{{#if settings.show_pp_link}}
+				<a href="{{settings.privacy_link}}" class="hc-footer-link">{{dc 'hc_-_privacy_policy'}}</a>
+				{{/if}}
+				{{#if settings.show_terms_link}}
+				<a href="{{settings.terms_link}}" class="hc-footer-link">{{dc 'hc_-_terms_and_conditions'}}</a>
+				{{/if}}
+				<a href="{{settings.webstore_link}}" target="_blank" rel="noopener" class="hc-footer-link">{{dc 'hc_-_codashop_store'}}</a>
+			</nav>
+		</div>
+		<span class="text-[10.5px] font-semibold tracking-[0.1em] uppercase text-black/45">{{settings.hc_label}}</span>
 	</div>
 </footer>
