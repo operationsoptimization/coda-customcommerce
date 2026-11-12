@@ -1,147 +1,83 @@
-<!-- Hero Section -->
-<section id="cc-hero-section" class="hero relative min-h-[550px] sm:min-h-[450px] overflow-visible z-0"
-  style="background-color: #280031;">
-  <div class="hero-overlay"></div>
-  <div
-    class="relative hero-content w-full max-w-5xl text-neutral-content text-center z-10 py-8 flex flex-col items-center justify-center">
-    <div class="w-full z-10">
-      <h1 class="mb-5 text-banner-text text-[48px] sm:text-[64px] font-ott font-bold">
-        {{dc 'hc_-_how_can_we_help'}}
-      </h1>
-      <h2 id="codee-resolve" class="mb-5 text-base sm:text-xl">
-        {{dc 'hc_-_codee_resolve'}}
-      </h2>
-      <button id="ask-codee"
-        class="bg-[#E8F953] !inline-flex text-brand font-bold text-xl btn w-max rounded-full px-[28px] py-[13px] sm:py-[16px]">
-        {{dc 'hc_-_chat_with_codee'}}
-      </button>
-    </div>
+<div id="hc-article" class="max-w-[1040px] mx-auto px-5 md:px-14 pt-9 pb-16 md:pb-24">
+	<!-- Breadcrumb + compact search -->
+	<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
+		<nav class="hc-breadcrumbs min-w-0" aria-label="Breadcrumb">
+			{{breadcrumbs}}
+		</nav>
+		<div class="hc-search hc-search--compact w-full md:w-[300px] flex-none" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+			<i class="ph ph-magnifying-glass hc-search-icon"></i>
+			{{search instant=true submit=false}}
+		</div>
+	</div>
 
-    <img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-      class="block md:hidden pointer-events-none select-none mt-10 self-end mr-4 -mb-8 w-[177px] min-[500px]:w-[222px] z-5">
-    <img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-      class="hidden md:block pointer-events-none select-none absolute -bottom-24 right-4 w-[222px] lg:w-[272px] z-5">
-  </div>
+	<div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_260px] gap-12 md:gap-16 mt-7">
+		<article id="main-content" class="min-w-0 max-w-[680px]">
+			<h1 class="hc-hero-title m-0 text-[28px] md:text-[34px] leading-[1.15] font-semibold">
+				{{article.title}}
+				{{#if article.internal}}
+				<i class="ph ph-lock-simple text-[0.7em] align-middle ml-1" title="{{t 'internal'}}"></i>
+				{{/if}}
+			</h1>
+			<!-- global.js swaps in the dynamic content label with the date and read time -->
+			<div id="hc-article-meta" class="hc-eyebrow mt-4" data-label="{{dc 'hc_-_article_meta'}}">
+				{{date article.edited_at format='medium'}}
+			</div>
 
-  <!-- Torn-paper edge: blends the hero into the page background -->
-  <img id="tear-desktop" src="{{asset 'tear.webp'}}" alt="tear background" aria-hidden="true"
-    class="hidden sm:block pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-  <img id="tear-mobile" src="{{asset 'tear-mobile.webp'}}" alt="tear background" aria-hidden="true"
-    class="block sm:hidden pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-</section>
+			<div class="article-body mt-7">{{article.body}}</div>
 
-<section class="max-w-5xl max-md:w-full lg:w-full min-h-[40dvh] mx-auto px-5 py-8">
-  <!-- Breadcrumbs using Zendesk helper -->
-  <nav class="custom-breadcrumbs text-sm mb-6">
-    {{breadcrumbs}}
-  </nav>
-  <div class="article-container" id="article-container">
-    <aside id="similar-articles-section"
-      class="w-full lg:w-1/3 h-max pt-4 sm:pt-0 border-t-2 sm:border-t-0 border-brand sm:order-1 order-2">
-      <h2 class="font-semibold">{{dc 'hc_-_articles_in_this_section'}}</h2>
-      <div class="flex-1 flex flex-col mt-2 gap-2">
-        {{#each section.articles}}
-        <a href="{{url}}"
-          class="btn btn-xl flex items-center justify-start {{#is id ../article.id}}bg-brand text-white{{else}}border-2 bg-transparent border-brand text-brand
-          hover:bg-brand hover:border-brand hover:text-brand-text {{/is}} transition-colors rounded-lg text-start text-xs sm:text-sm leading-4 article-sidebar-btn">
-          {{title}}
-        </a>
-        {{/each}}
-      </div>
-    </aside>
+			{{#if attachments}}
+			<ul class="attachments mt-8">
+				{{#each attachments}}
+				<li class="attachment-item">
+					<i class="ph ph-paperclip attachment-icon"></i>
+					<a href="{{url}}" target="_blank" rel="noopener">{{name}}</a>
+					<span class="text-[13px] text-black/50 ml-2">{{size}}</span>
+				</li>
+				{{/each}}
+			</ul>
+			{{/if}}
 
-    <article id="main-content" class="article sm:mt-8 lg:mt-0 sm:order-2 order-1">
-      <header class="article-title-header mb-6">
-        <h1 class="text-3xl font-bold text-main-text">
-          {{article.title}}
-          {{#if article.internal}}
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" focusable="false" viewBox="0 0 16 16"
-            class="icon-lock text-main-text ml-2 inline-block" title="{{t 'internal'}}">
-            <rect width="12" height="9" x="2" y="7" fill="currentColor" rx="1" ry="1" />
-            <path fill="none" stroke="currentColor" d="M4.5 7.5V4a3.5 3.5 0 017 0v3.5" />
-          </svg>
-          {{/if}}
-        </h1>
-      </header>
+			{{#with article}}
+			<div class="hc-votes mt-9 pt-6 border-t border-brand/12 flex flex-wrap items-center gap-4">
+				<span id="article-votes-label" class="text-[15px] text-black/70">{{t 'was_this_article_helpful'}}</span>
+				<div class="flex gap-2.5" role="group" aria-labelledby="article-votes-label">
+					{{vote 'up' role='radio' class='hc-vote' selected_class='hc-vote--selected'}}
+					{{vote 'down' role='radio' class='hc-vote' selected_class='hc-vote--selected'}}
+				</div>
+				{{vote 'label' class='text-[11px] font-semibold text-black/40'}}
+			</div>
+			{{/with}}
+		</article>
 
-      <section class="article-info">
-        <div class="article-content">
-          <div class="article-body">{{article.body}}</div>
+		<aside class="min-w-0 md:self-start md:sticky md:top-24">
+			<div class="hc-related">{{related_articles}}</div>
 
-          {{#if (compare article.content_tags.length ">" 0)}}
-          <section class="content-tags hidden">
-            <p>{{t 'content_tags_label'}}</p>
-            <ul class="content-tag-list">
-              {{#each article.content_tags}}
-              <li class="content-tag-item" data-content-tag-id="{{id}}">
-                {{#link "search_result" content_tag_id=id}}
-                {{name}}
-                {{/link}}
-              </li>
-              {{/each}}
-            </ul>
-          </section>
-          {{/if}}
+			{{#isnt settings.homepage_variant 'search_only'}}
+			<div class="mt-7 bg-lavender rounded-[20px] p-[22px]">
+				<h3 class="m-0 !text-base font-semibold text-brand">{{dc 'hc_-_faster_with_codee'}}</h3>
+				<p class="mt-2 mb-0 !text-[13.5px] leading-normal text-brand/80">{{dc 'hc_-_codee_card_text'}}</p>
+				<button id="ask-codee" type="button" class="hc-btn hc-btn--dark hc-btn--sm mt-4">{{dc 'hc_-_chat_with_codee'}}</button>
+			</div>
+			{{/isnt}}
+		</aside>
+	</div>
+</div>
 
-          {{#if attachments}}
-          <div class="article-attachments">
-            <ul class="attachments">
-              {{#each attachments}}
-              <li class="attachment-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" focusable="false" viewBox="0 0 16 16"
-                  class="attachment-icon">
-                  <path fill="none" stroke="currentColor" stroke-linecap="round"
-                    d="M9.5 4v7.7c0 .8-.7 1.5-1.5 1.5s-1.5-.7-1.5-1.5V3C6.5 1.6 7.6.5 9 .5s2.5 1.1 2.5 2.5v9c0 1.9-1.6 3.5-3.5 3.5S4.5 13.9 4.5 12V4" />
-                </svg>
-                <a href="{{url}}" target="_blank">{{name}}</a>
-                <div class="attachment-meta meta-group">
-                  <span class="attachment-meta-item meta-data">{{size}}</span>
-                  <a href="{{url}}" target="_blank" class="attachment-meta-item meta-data">{{t 'download'}}</a>
-                </div>
-              </li>
-              {{/each}}
-            </ul>
-          </div>
-          {{/if}}
-        </div>
-      </section>
-
-      <section id="article-footer">
-        {{#with article}}
-        <div class="article-votes">
-          <span class="text-xl font-semibold" id="article-votes-label">{{t 'was_this_article_helpful'}}</span>
-          <div class="mt-4" role="group" aria-labelledby="article-votes-label">
-            {{vote 'up' role='radio' class='btn btn-neutral btn-outline' selected_class="btn-active"}}
-            {{vote 'down' role='radio' class='btn btn-neutral btn-outline' selected_class="btn-active"}}
-          </div>
-          <div class="mt-4">
-            {{vote 'label' class='text-sm'}}
-          </div>
-        </div>
-        {{/with}}
-
-        <div class="article-relatives">
-          {{related_articles}}
-        </div>
-      </section>
-    </article>
-  </div>
-</section>
-
+{{#isnt settings.homepage_variant 'search_only'}}
 <script defer type="text/javascript" src="https://prod-au-druid-cdn.azureedge.net/v2/druid_webchat_v2.js"></script>
 <script data-druid-language="{{settings.druid_lang}}" type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function (event) {
-    const botId = "{{settings.druid_bot_id}}".trim();
-    const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
-    const druidLang = "{{settings.druid_lang}}".trim();
+	document.addEventListener("DOMContentLoaded", function (event) {
+		const botId = "{{settings.druid_bot_id}}".trim();
+		const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
 
-    DruidWebchat_v2.init({
-      botId: botId,
-      baseUrl: "https://druidapi.au.druidplatform.com",
-      queryParams: botQueryParams,
-      UI: {
-        containerElement: document.getElementById('ask-codee')
-      }
-    });
-  });
+		DruidWebchat_v2.init({
+			botId: botId,
+			baseUrl: "https://druidapi.au.druidplatform.com",
+			queryParams: botQueryParams,
+			UI: {
+				containerElement: document.getElementById('ask-codee')
+			}
+		});
+	});
 </script>
+{{/isnt}}

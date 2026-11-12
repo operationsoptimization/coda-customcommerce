@@ -61,6 +61,21 @@ document.addEventListener("DOMContentLoaded", () => {
 		el.textContent = fill(el.dataset.label, { count: el.dataset.count });
 	});
 
+	// Sidebar row: name on the left, article count on the right. textContent keeps API strings inert.
+	const countItem = ({ html_url, name, n }, current = false) => {
+		const link = document.createElement("a");
+		link.href = html_url;
+		if (current) link.setAttribute("aria-current", "page");
+		const label = document.createElement("span");
+		label.textContent = name;
+		const number = document.createElement("span");
+		number.textContent = n;
+		link.append(label, number);
+		const item = document.createElement("li");
+		item.append(link);
+		return item;
+	};
+
 	// CATEGORY PAGE
 	const categoryStats = document.getElementById("hc-category-stats");
 	if (categoryStats && categoryStats.dataset.label) {
@@ -79,21 +94,50 @@ document.addEventListener("DOMContentLoaded", () => {
 			)
 			.then((categories) => {
 				const list = otherTopics.querySelector("ul");
-				categories.forEach((cat) => {
-					const link = document.createElement("a");
-					link.href = cat.html_url;
-					const name = document.createElement("span");
-					name.textContent = cat.name;
-					const n = document.createElement("span");
-					n.textContent = cat.n;
-					link.append(name, n);
-					const item = document.createElement("li");
-					item.append(link);
-					list.append(item);
-				});
+				categories.forEach((cat) => list.append(countItem(cat)));
 				otherTopics.classList.remove("hidden");
 			})
 			.catch(() => {});
+	}
+
+	// SECTION PAGE: the template has no category data, so the sidebar comes from the API.
+	const siblings = document.getElementById("hc-sibling-sections");
+	if (siblings) {
+		const sectionId = Number(siblings.dataset.sectionId);
+		getJson(`sections/${sectionId}.json`)
+			.then(({ section }) =>
+				Promise.all([
+					getJson(`categories/${section.category_id}.json`),
+					getJson(`categories/${section.category_id}/sections.json?per_page=100`),
+				]).then(([{ category }, { sections }]) => {
+					// Siblings share a parent: top-level sections for a top-level section, else the parent's subsections.
+					const peers = sections.filter((s) => s.parent_section_id === section.parent_section_id);
+					return Promise.all(peers.map((s) => count(`sections/${s.id}/articles`).then((n) => ({ ...s, n })))).then(
+						(withCounts) => ({ category, peers: withCounts }),
+					);
+				}),
+			)
+			.then(({ category, peers }) => {
+				siblings.firstElementChild.textContent = fill(siblings.dataset.label, { category: category.name });
+				const list = siblings.querySelector("ul");
+				peers.forEach((s) => list.append(countItem(s, s.id === sectionId)));
+				const back = siblings.querySelector("a.hc-see-all");
+				back.href = category.html_url;
+				back.textContent = fill(siblings.dataset.backLabel, { category: category.name });
+				siblings.classList.remove("hidden");
+			})
+			.catch(() => {});
+	}
+
+	// ARTICLE PAGE: "Updated {date} · {minutes} min read", reading time at ~200 words a minute.
+	const articleMeta = document.getElementById("hc-article-meta");
+	const articleBody = document.querySelector("#hc-article .article-body");
+	if (articleMeta && articleMeta.dataset.label && articleBody) {
+		const words = articleBody.textContent.trim().split(/\s+/).length;
+		articleMeta.textContent = fill(articleMeta.dataset.label, {
+			date: articleMeta.textContent.trim(),
+			minutes: Math.max(1, Math.round(words / 200)),
+		});
 	}
 
 	// HOMEPAGE
