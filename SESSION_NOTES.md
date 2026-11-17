@@ -1,6 +1,6 @@
 # Session notes: Codashop v2 Help Center revamp
 
-Last updated: 2026-11-12. Branch: `codashop-v2`; last commit `f69955e WIP: homepage and category`.
+Last updated: 2026-11-17. Branch: `codashop-v2`; last commit `f69955e WIP: homepage and category`.
 Design source: `artifacts/codashop_help_center.dc.html` (gitignored), plus HTML snippets pasted in chat.
 
 ## Progress
@@ -11,13 +11,14 @@ Design source: `artifacts/codashop_help_center.dc.html` (gitignored), plus HTML 
 | Homepage (3 variants) | Done, accuracy-checked | `templates/home_page.hbs` |
 | Category | Done, reviewed | `templates/category_page.hbs` |
 | Section | Done, reviewed | `templates/section_page.hbs` |
-| Article | Built, **not yet previewed** (uncommitted) | `templates/article_page.hbs` |
-| Search results, no results | To do | `templates/search_results.hbs` |
+| Article | Done (committed in 555c6b6) | `templates/article_page.hbs` |
+| Search results | Built, **not yet previewed** (uncommitted) |
+| No results | Built (same template, `{{else}}` branch), **not yet previewed** | `templates/search_results.hbs` |
 | Submit request | To do | `templates/new_request_page.hbs` |
 | 404 | To do | `templates/error_page.hbs` |
 | All topics, infobar restyle | To do | — |
 
-Uncommitted changes: section and article pages (templates, `assets/scripts/global.js`, `assets/styles/home.css`, `assets/styles/article.css`, built `style.css` / `script.js`). Planned commit format: `feat(1.3.0): …`.
+Uncommitted changes: search results page (`templates/search_results.hbs`, `assets/scripts/global.js`, `assets/styles/home.css`, built `style.css` / `script.js`). Planned commit format: `feat(1.3.0): …`.
 
 ## How things fit together
 
@@ -32,12 +33,11 @@ Uncommitted changes: section and article pages (templates, `assets/scripts/globa
 Source sheet: `17zYb3eMxCQCBjg9vBUVtkx2OKtQz7HBElh_IXO-fTlk`, tab "Help Center".
 n8n workflow `ou3WDR71s0BH0Rt4` creates every row that has no ID yet and writes the new ID back to the sheet.
 
-Rows 37–41 are not created in Zendesk yet; run the workflow:
-- HC - N articles in section — `{count} articles in this section`
-- HC - Sections in category — `Sections in {category}`
-- HC - Back to category — `Back to {category}`
-- HC - No articles in section — `No articles in this section yet.`
-- HC - Article meta — `Updated {date} · {minutes} min read`
+Rows 42–52 (search results + no results) may not be created in Zendesk yet; run the workflow (it skips rows that already have an ID). Rows 42–45:
+- HC - N results for query — `{count} results for “{query}”`
+- HC - Sorted by relevance — `Sorted by relevance`
+- HC - Not finding an answer — `Not finding an answer?`
+- HC - Not finding an answer text — `Send us the details and our Customer Support will take a look.`
 
 ## Open items
 

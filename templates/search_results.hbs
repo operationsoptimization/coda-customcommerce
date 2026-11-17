@@ -1,86 +1,112 @@
-<!-- Hero Section -->
-<section id="cc-hero-section" class="hero relative min-h-[550px] sm:min-h-[450px] overflow-visible z-0"
-	style="background-color: #280031;">
-	<div class="hero-overlay"></div>
-	<div
-		class="relative hero-content w-full max-w-5xl text-neutral-content text-center z-10 py-8 flex flex-col items-center justify-center">
-		<div class="w-full z-10">
-			<h1 class="mb-5 text-banner-text text-[48px] sm:text-[64px] font-ott font-bold">
-				{{dc 'hc_-_how_can_we_help'}}
-			</h1>
-			<h2 id="codee-resolve" class="mb-5 text-base sm:text-xl">
-				{{dc 'hc_-_codee_resolve'}}
-			</h2>
-			<button id="ask-codee"
-				class="bg-[#E8F953] !inline-flex text-brand font-bold text-xl btn w-max rounded-full px-[28px] py-[13px] sm:py-[16px]">
-				{{dc 'hc_-_chat_with_codee'}}
-			</button>
-		</div>
-
-		<!-- Mobile Codee -->
-		<img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-			class="block md:hidden pointer-events-none select-none mt-10 self-end mr-4 -mb-8 w-[177px] min-[500px]:w-[222px] z-5">
-		<!-- Desktop Codee -->
-		<img src="{{asset 'codee.webp'}}" alt="Codee" aria-hidden="true"
-			class="hidden md:block pointer-events-none select-none absolute -bottom-28 right-4 w-[222px] lg:w-[272px] z-5">
+<div id="hc-search-results" class="max-w-[1040px] mx-auto px-5 md:px-14 pt-9 md:pt-11 pb-16 md:pb-24">
+	{{#if results}}
+	<div class="hc-search hc-search--page" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+		<i class="ph ph-magnifying-glass hc-search-icon"></i>
+		{{search instant=true submit=false}}
 	</div>
 
-	<!-- Torn-paper edge: blends the hero into the page background -->
-	<img id="tear-desktop" src="{{asset 'tear.webp'}}" alt="tear background" aria-hidden="true"
-		class="hidden sm:block pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-	<img id="tear-mobile" src="{{asset 'tear-mobile.webp'}}" alt="tear background" aria-hidden="true"
-		class="block sm:hidden pointer-events-none select-none absolute object-cover bottom-0 w-full h-18 z-1">
-</section>
+	<div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-2 sm:gap-6 mt-7">
+		<!-- global.js fills {count} and {query} from the data attributes -->
+		<h1 class="m-0 text-[20px] md:text-[22px] font-semibold tracking-[-0.015em] [text-wrap:pretty]"
+			data-label="{{dc 'hc_-_n_results_for_query'}}" data-count="{{results_count}}" data-query="{{query}}">
+			{{t 'preview_result_header' query=query}}
+		</h1>
+		<span class="hc-eyebrow flex-none !text-[11px] tracking-[0.1em]">{{dc 'hc_-_sorted_by_relevance'}}</span>
+	</div>
 
-<section class="max-w-5xl max-md:w-full md:w-2/3 min-h-[50dvh] lg:w-full mx-auto px-4 py-12">
-	<section class="flex-1 flex items-start mt-6">
-		<aside id="promoted-articles-section" class="w-full md:w-1/3 h-max">
-			<!-- <h3 class="text-md font-semibold">{{dc 'hc_-_articles_in_this_section'}}</h3> -->
-			<h3 class="text-md font-semibold">{{t 'featured_posts'}}</h3>
-			<div class="w-full join join-vertical mt-2 gap-2">
+	{{#if subfilters}}
+	<nav class="flex flex-wrap gap-2 mt-[18px]" aria-label="{{dc 'hc_-_all_topics'}}">
+		<!-- global.js points this at the same search without a category filter -->
+		<a id="hc-search-all" href="#" class="hc-chip">{{dc 'hc_-_all_topics'}}</a>
+		{{#each subfilters}}
+		<a href="{{url}}" class="hc-chip" {{#if selected}}aria-current="true"{{/if}}>{{name}}</a>
+		{{/each}}
+	</nav>
+	{{/if}}
+
+	<ul id="results" class="mt-7 border-t border-brand/12 scroll-mt-6">
+		{{#each results}}
+		<li>
+			<a href="{{url}}" class="hc-result">
+				<span class="hc-result-path hc-eyebrow tracking-[0.1em]">
+					{{#each path_steps}}<span>{{name}}</span>{{/each}}
+				</span>
+				<span class="hc-result-title">{{title}}</span>
+				<span class="hc-result-text">{{text}}</span>
+			</a>
+		</li>
+		{{/each}}
+	</ul>
+	{{pagination}}
+
+	<div class="mt-10 bg-lavender rounded-3xl px-6 py-7 md:px-8 flex flex-col md:flex-row md:items-center md:justify-between gap-5 md:gap-8">
+		<div class="min-w-0">
+			<h2 class="m-0 !text-[19px] font-semibold text-brand">{{dc 'hc_-_not_finding_an_answer'}}</h2>
+			<p class="mt-2 mb-0 !text-[14.5px] leading-normal text-brand/80">{{dc 'hc_-_not_finding_an_answer_text'}}</p>
+		</div>
+		<a href="{{page_path 'new_request'}}" class="hc-btn hc-btn--dark !h-[46px] !px-[22px] !text-[15px] flex-none max-md:w-full">
+			{{dc 'hc_standard_-_submit_a_request_button'}}
+		</a>
+	</div>
+
+	{{else}}
+	<!-- No results -->
+	<div class="hc-search hc-search--page hc-search--page-button" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+		<i class="ph ph-magnifying-glass hc-search-icon"></i>
+		{{search instant=true submit=true}}
+	</div>
+
+	<div class="max-w-[620px] mt-10 md:mt-12">
+		<div class="hc-eyebrow !text-[11px]">{{dc 'hc_-_no_results'}}</div>
+		<!-- global.js fills {query}; data-count is 0 here -->
+		<h1 class="hc-hero-title mt-3.5 mb-0 text-[26px] md:text-[32px] leading-[1.14] font-semibold"
+			data-label="{{dc 'hc_-_no_results_for_query'}}" data-count="{{results_count}}" data-query="{{query}}">
+			{{t 'no_results_unified'}}
+		</h1>
+		<p class="mt-4 mb-0 !text-base leading-[1.6] text-black/60 [text-wrap:pretty]">{{dc 'hc_-_no_results_tips'}}</p>
+	</div>
+
+	<div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_340px] gap-10 md:gap-16 mt-10 md:mt-12 items-start">
+		<div class="min-w-0">
+			{{#if promoted_articles}}
+			<div class="hc-eyebrow">{{dc 'hc_-_most_read_articles'}}</div>
+			<ul class="mt-2.5 border-t border-brand/12">
 				{{#each promoted_articles}}
-				<a href="{{url}}"
-					class="btn btn-md h-[50px] flex items-center justify-start border-brand text-white transition-colors bg-brand hover:bg-brand/90 rounded-lg text-start text-sm line-clamp-2 leading-4">
-					{{title}}
-				</a>
+				<li>
+					<a href="{{url}}" class="hc-row !py-[17px] !px-0 !text-base">
+						<span>{{title}}</span>
+						<i class="ph ph-arrow-right"></i>
+					</a>
+				</li>
 				{{/each}}
-			</div>
-		</aside>
-		<section class="w-full md:w-[75%] flex flex-col px-4">
-			<h2 class="text-lg w-full font-semibold pb-4">
-				{{t "preview_result_header" query=query}}
-			</h2>
-			{{#if results}}
-			<hr class="w-full border-1.5 border-ott-tertiary/50" />
-			<div class="w-full flex flex-col gap-4 pt-4">
-				{{#each results}}
-				<a href="{{url}}"
-					class="flex-1 flex flex-col justify-start px-4 py-2 rounded-md box-border border border-transparent hover:border-brand cursor-pointer">
-					<h3 class="text-lg text-brand transition-colors font-bold">
-						{{title}}
-					</h3>
-					<p class="text-main-text !text-sm mt-1.5">
-						{{text}}
-					</p>
-				</a>
-				{{/each}}
-			</div>
-			{{pagination}}
-			{{else}}
-			<p class="text-main-text font-semibold">
-				{{t "no_results_unified"}}
-			</p>
+			</ul>
 			{{/if}}
-		</section>
-	</section>
-</section>
+			<a href="{{page_path 'help_center'}}" class="hc-see-all !mt-[22px]">{{dc 'hc_-_browse_all_topics'}}</a>
+		</div>
 
+		<div class="bg-lavender rounded-3xl p-6 md:p-7">
+			<h2 class="m-0 !text-[19px] font-semibold text-brand [text-wrap:pretty]">{{dc 'hc_-_still_nothing'}}</h2>
+			<p class="mt-2.5 mb-0 !text-[14.5px] leading-[1.55] text-brand/80">{{dc 'hc_-_still_nothing_text'}}</p>
+			<a href="{{page_path 'new_request'}}" class="hc-btn hc-btn--dark w-full !h-12 !text-[15px] mt-5">
+				{{dc 'hc_standard_-_submit_a_request_button'}}
+			</a>
+			{{#isnt settings.homepage_variant 'search_only'}}
+			<button id="ask-codee" type="button" class="hc-btn hc-btn--outline w-full !h-12 !text-[15px] mt-2.5">
+				{{dc 'hc_-_chat_with_codee'}}
+			</button>
+			{{/isnt}}
+		</div>
+	</div>
+	{{/if}}
+</div>
+
+{{#unless results}}
+{{#isnt settings.homepage_variant 'search_only'}}
 <script defer type="text/javascript" src="https://prod-au-druid-cdn.azureedge.net/v2/druid_webchat_v2.js"></script>
 <script data-druid-language="{{settings.druid_lang}}" type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function (event) {
 		const botId = "{{settings.druid_bot_id}}".trim();
 		const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
-		const druidLang = "{{settings.druid_lang}}".trim();
 
 		DruidWebchat_v2.init({
 			botId: botId,
@@ -92,3 +118,5 @@
 		});
 	});
 </script>
+{{/isnt}}
+{{/unless}}

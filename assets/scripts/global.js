@@ -56,10 +56,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	const fill = (label, values) =>
 		Object.keys(values).reduce((text, key) => text.split(`{${key}}`).join(values[key]), label);
 
-	// Counts the template already knows (e.g. a section's article_count)
+	// Values the template already knows (a section's article_count, the search query…):
+	// every data-* attribute is a placeholder, so data-count fills {count}, data-query fills {query}.
 	document.querySelectorAll("[data-label][data-count]").forEach((el) => {
-		el.textContent = fill(el.dataset.label, { count: el.dataset.count });
+		el.textContent = fill(el.dataset.label, el.dataset);
 	});
+
+	// SEARCH RESULTS: "All topics" chip = the current search minus the category filter.
+	const searchAll = document.getElementById("hc-search-all");
+	if (searchAll) {
+		const url = new URL(window.location.href);
+		["category", "section", "page"].forEach((param) => url.searchParams.delete(param));
+		searchAll.href = url.toString();
+		if (!document.querySelector('.hc-chip[aria-current="true"]')) searchAll.setAttribute("aria-current", "true");
+	}
 
 	// Sidebar row: name on the left, article count on the right. textContent keeps API strings inert.
 	const countItem = ({ html_url, name, n }, current = false) => {
