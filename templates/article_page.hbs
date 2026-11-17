@@ -4,7 +4,8 @@
 		<nav class="hc-breadcrumbs min-w-0" aria-label="Breadcrumb">
 			{{breadcrumbs}}
 		</nav>
-		<div class="hc-search hc-search--compact w-full md:w-[300px] flex-none" data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+		<div class="hc-search hc-search--compact w-full md:w-[300px] flex-none z-0"
+			data-placeholder="{{dc 'hc_-_search_placeholder'}}">
 			<i class="ph ph-magnifying-glass hc-search-icon"></i>
 			{{search instant=true submit=false}}
 		</div>
@@ -56,7 +57,8 @@
 			<div class="mt-7 bg-lavender rounded-[20px] p-[22px]">
 				<h3 class="m-0 !text-base font-semibold text-brand">{{dc 'hc_-_faster_with_codee'}}</h3>
 				<p class="mt-2 mb-0 !text-[13.5px] leading-normal text-brand/80">{{dc 'hc_-_codee_card_text'}}</p>
-				<button id="ask-codee" type="button" class="hc-btn hc-btn--dark hc-btn--sm mt-4">{{dc 'hc_-_chat_with_codee'}}</button>
+				<button id="ask-codee" type="button" class="hc-btn hc-btn--dark hc-btn--sm mt-4">{{dc
+					'hc_-_chat_with_codee'}}</button>
 			</div>
 			{{/isnt}}
 		</aside>
