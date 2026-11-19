@@ -153,6 +153,12 @@
 				secondary: '{{settings.duel_links_secondary_color}}',
 				logo: '{{settings.duel_links_logo}}',
 				identifier: 'duel-links'
+			},
+			'Suikoden STAR LEAP': {
+				primary: '{{settings.suikoden_primary_color}}',
+				secondary: '{{settings.suikoden_secondary_color}}',
+				logo: '{{settings.suikoden_logo}}',
+				identifier: 'suikoden'
 			}
 			// Add more games here as needed
 		};
@@ -413,6 +419,71 @@
 				searchButton.classList.add('category-themed');
 			}
 		}
+
+		// Check if we're on Suikoden STAR LEAP category page
+		if (categoryTitle?.includes('Suikoden STAR LEAP') || pagePath.toLowerCase().includes('suikoden')) {
+			const theme = categoryThemes['Suikoden STAR LEAP'];
+
+			// Set logo
+			const logoContainer = document.getElementById('category-logo');
+			const logoImg = document.getElementById('category-logo-img');
+			if (logoContainer && logoImg && theme.logo) {
+				logoImg.src = theme.logo;
+				logoContainer.style.display = 'block';
+			}
+
+			// Apply Suikoden theming to subsection buttons
+			const subsectionBtns = document.querySelectorAll('.subsection-btn');
+			subsectionBtns.forEach(btn => {
+				btn.classList.remove('bg-cta', 'hover:bg-cta/90');
+				btn.classList.add('bg-suikoden-primary', 'hover:bg-suikoden-primary/90');
+			});
+
+			// Apply Suikoden theming to article buttons
+			const articleBtns = document.querySelectorAll('.article-btn');
+			articleBtns.forEach(btn => {
+				btn.classList.remove('border-cta', 'text-cta', 'hover:bg-cta');
+				btn.classList.add('border-suikoden-primary', 'text-suikoden-primary', 'hover:bg-suikoden-primary');
+			});
+
+			// Apply Suikoden theming to view more buttons
+			const viewMoreBtns = document.querySelectorAll('.view-more-btn');
+			viewMoreBtns.forEach(btn => {
+				btn.classList.remove('border-cta', 'text-cta', 'hover:bg-cta');
+				btn.classList.add('border-suikoden-primary', 'text-suikoden-primary', 'hover:bg-suikoden-primary');
+			});
+
+			// Apply Suikoden theming to contact support button
+			const contactBtns = document.querySelectorAll('.contact-support-btn');
+			contactBtns.forEach(btn => {
+				btn.classList.remove('bg-cta/80', 'hover:bg-cta');
+				btn.classList.add('bg-suikoden-primary', 'hover:bg-suikoden-primary');
+			});
+
+			// Apply Suikoden theming to support icon background
+			const supportIconBg = document.querySelector('.support-icon-bg');
+			if (supportIconBg) {
+				supportIconBg.classList.remove('bg-brand');
+				supportIconBg.classList.add('bg-suikoden-primary');
+			}
+
+			// Style the category link in breadcrumbs
+			breadcrumbLinks.forEach((breadcrumb, index) => {
+				const categoryLink = breadcrumbLinks[index];
+				if (categoryLink) {
+					categoryLink.style.setProperty('--hover-color', theme.primary);
+					categoryLink.classList.add('category-themed');
+				}
+			});
+
+			// Style search button
+			const searchButton = document.querySelector('input[name="commit"][value="Search"]');
+			if (searchButton) {
+				searchButton.style.setProperty('background-color', theme.primary);
+				searchButton.classList.add('category-themed');
+			}
+		}
+		
 
 		// Add 'notranslate' class to second breadcrumb item (game title)
 		const breadcrumbLinksElement = document.querySelectorAll('.custom-breadcrumbs ol.breadcrumbs li a');
