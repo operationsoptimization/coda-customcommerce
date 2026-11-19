@@ -1,7 +1,7 @@
 {
 	"name": "Coda Custom Commerce Theme",
 	"author": "Operations Optimization",
-	"version": "1.3.2",
+	"version": "1.3.3",
 	"api_version": 3,
 	"default_locale": "en-us",
 	"settings": [
@@ -495,6 +495,38 @@
 					"type": "color",
 					"description": "-",
 					"label": "Master Duel Secondary Color",
+					"value": "#3B82F6"
+				}
+			]
+		},
+		{
+			"label": "Suikoden STAR LEAP Config",
+			"variables": [
+				{
+					"identifier": "suikoden_logo",
+					"type": "file",
+					"description": "Format in .png/.webp",
+					"label": "Suikoden STAR LEAP Logo"
+				},
+				{
+					"identifier": "show_suikoden_section",
+					"type": "checkbox",
+					"description": "-",
+					"label": "Show Suikoden STAR LEAP Section?",
+					"value": true
+				},
+				{
+					"identifier": "suikoden_primary_color",
+					"type": "color",
+					"description": "-",
+					"label": "Suikoden STAR LEAP Primary Color",
+					"value": "#1E40AF"
+				},
+				{
+					"identifier": "suikoden_secondary_color",
+					"type": "color",
+					"description": "-",
+					"label": "Suikoden STAR LEAP Secondary Color",
 					"value": "#3B82F6"
 				}
 			]
