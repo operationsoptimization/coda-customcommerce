@@ -14,9 +14,10 @@ Design source: `artifacts/codashop_help_center.dc.html` (gitignored), plus HTML 
 | Article | Done (committed in 555c6b6) | `templates/article_page.hbs` |
 | Search results | Built, **not yet previewed** (uncommitted) |
 | No results | Built (same template, `{{else}}` branch), **not yet previewed** | `templates/search_results.hbs` |
-| Submit request | To do | `templates/new_request_page.hbs` |
-| 404 | To do | `templates/error_page.hbs` |
-| All topics, infobar restyle | To do | — |
+| Submit request | Built, **not yet previewed** (form fields come from Zendesk; styled in `assets/styles/forms.css`) | `templates/new_request_page.hbs` |
+| 404 | Built (other errors use Zendesk wording; most-read = promoted articles via API) | `templates/error_page.hbs` |
+| All topics (custom page, `/hc/<locale>/p/all_topics`) | Built, **not yet previewed**; data from the HC API | `templates/custom_pages/all_topics.hbs` |
+| Infobar restyle | To do | — |
 
 Uncommitted changes: search results page (`templates/search_results.hbs`, `assets/scripts/global.js`, `assets/styles/home.css`, built `style.css` / `script.js`). Planned commit format: `feat(1.3.0): …`.
 
@@ -32,8 +33,10 @@ Uncommitted changes: search results page (`templates/search_results.hbs`, `asset
 
 Source sheet: `17zYb3eMxCQCBjg9vBUVtkx2OKtQz7HBElh_IXO-fTlk`, tab "Help Center".
 n8n workflow `ou3WDR71s0BH0Rt4` creates every row that has no ID yet and writes the new ID back to the sheet.
+n8n workflow `WuscIFoA9V9hJgtO` (Support project, folder Reza) syncs the 31 non-English columns to those items: creates missing language variants and overwrites changed ones (sheet is master). Italian (Italy) is dropped. Placeholders like `{count}` must stay in English in every language.
+Translations reviewed 2026-11-19 against the design wording: about 400 cells corrected in the "Help Center" tab (brand names kept in Latin script, placeholders, one term and one form of "you" per language, meaning fixes). "Translate HC" still holds the raw TranslateHTML() output: do not copy it over "Help Center" again. English "HC - How can we help" is now "How can we help?" (update the Zendesk English text by hand; the sync workflow skips English).
 
-Rows 42–52 (search results + no results) may not be created in Zendesk yet; run the workflow (it skips rows that already have an ID). Rows 42–45:
+Rows 42–62 (search results, no results, submit request, all topics, 404) may not be created in Zendesk yet; run the workflow (it skips rows that already have an ID). Rows 42–45:
 - HC - N results for query — `{count} results for “{query}”`
 - HC - Sorted by relevance — `Sorted by relevance`
 - HC - Not finding an answer — `Not finding an answer?`

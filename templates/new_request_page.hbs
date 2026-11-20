@@ -1,41 +1,82 @@
-<!-- Hero Section -->
-<!-- <section
-	id="cc-hero-section"
-	class="hero min-h-[50dvh]"
-	style="background-image: url({{settings.homepage_background_image}});"
->
-	<div class="hero-overlay"></div>
-	<div class="hero-content w-full max-w-3xl text-neutral-content text-center">
-		<div class="w-full">
-			<h1 class="mb-5 text-3xl font-bold">
-				Contact Support
-			</h1>
-			<p class="">Need help? Our support team is here to assist you. Fill
-				out the form below and we'll get back to you as soon as
-				possible.</p>
+<div id="hc-request" class="max-w-[1040px] mx-auto px-5 md:px-14 pt-9 md:pt-10 pb-16 md:pb-24">
+	<!-- Breadcrumb + compact search -->
+	<div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
+		<nav class="flex items-center gap-2.5 text-[13.5px] text-black/55 min-w-0" aria-label="Breadcrumb">
+			<a href="{{page_path 'help_center'}}" class="text-black/55 hover:text-brand shrink-0">{{dc
+				'hc_-_help_center'}}</a>
+			<span aria-hidden="true">/</span>
+			<span class="truncate">{{dc 'hc_standard_-_submit_a_request_button'}}</span>
+		</nav>
+		<div class="hc-search hc-search--compact w-full md:w-[300px] flex-none z-0"
+			data-placeholder="{{dc 'hc_-_search_placeholder'}}">
+			<i class="ph ph-magnifying-glass hc-search-icon"></i>
+			{{search instant=true submit=false}}
 		</div>
 	</div>
-</section> -->
 
-<section id="contact-support" class="max-w-5xl max-md:w-full md:w-2/3 lg:w-full mx-auto px-4 pt-16 pb-12">
-	<div class="w-full">
-		{{dc 'hc_-_contact_support_element'}}
-	</div>
-</section>
+	<h1 class="hc-hero-title mt-7 mb-0 text-[30px] md:text-[34px] leading-[1.12] font-semibold">
+		{{dc 'hc_standard_-_submit_a_request_button'}}
+	</h1>
 
-<section id="submit-request" class="max-w-5xl max-md:w-full md:w-2/3 lg:w-full mx-auto px-4 py-12">
-	<div class="w-full bg-white p-6 rounded-lg shadow-md">
-		{{request_form wysiwyg=true}}
-		<p id="ingame-warning" class="hidden text-black !text-sm mt-2">
-			<span>
-				<i class="ph ph-bold ph-warning text-yellow-500"></i>
-			</span>
-			{{dc 'hc_-_for_in-game_inquiries'}}
-			<span>
-				<a href="{{settings.ws_hc_link_url}}" target="_blank" class="warning-hc-link">
-					{{settings.ws_hc_link_label}}
-				</a>
-			</span>
-		</p>
+	<div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_300px] gap-10 md:gap-16 mt-8">
+		<div class="min-w-0 max-w-[620px] z-0">
+			<p class="mt-3 mb-0 !text-base leading-[1.6] text-black/60 [text-wrap:pretty]">{{dc 'hc_-_request_intro'}}</p>
+
+			<div class="mt-9">
+				{{request_form wysiwyg=true}}
+				<!-- Shown by global.js when an in-game inquiry type is picked; the submit button is disabled meanwhile -->
+				<p id="ingame-warning"
+					class="hidden mt-4 mb-0 rounded-[14px] bg-lavender px-4 py-3 !text-sm leading-normal text-brand">
+					<i class="ph ph-bold ph-warning align-[-2px] mr-1"></i>
+					{{dc 'hc_-_for_in-game_inquiries'}}
+					<a href="{{settings.ws_hc_link_url}}" target="_blank" rel="noopener"
+						class="font-semibold underline underline-offset-[3px] text-brand">
+						{{settings.ws_hc_link_label}}
+					</a>
+				</p>
+			</div>
+		</div>
+
+		<aside class="min-w-0 md:self-start md:sticky md:top-24 flex flex-col gap-5">
+			{{#isnt settings.homepage_variant 'search_only'}}
+			<div class="bg-brand rounded-[20px] p-6">
+				<div class="hc-eyebrow !text-[10px] !text-lavender opacity-70">{{dc 'hc_-_before_you_send'}}</div>
+				<h3 class="mt-2.5 mb-0 !text-lg font-semibold tracking-[-0.015em] text-white">{{dc 'hc_-_try_codee_first'}}</h3>
+				<p class="mt-2 mb-0 !text-sm leading-[1.55] text-lavender opacity-85">{{dc 'hc_-_try_codee_first_text'}}</p>
+				<button id="ask-codee" type="button" class="hc-btn hc-btn--sm hc-btn--white mt-4">{{dc
+					'hc_-_chat_with_codee'}}</button>
+			</div>
+			{{/isnt}}
+
+			<div class="border border-brand/14 rounded-[20px] p-[22px]">
+				<h3 class="m-0 !text-[15px] font-semibold">{{dc 'hc_-_support_hours'}}</h3>
+				<div class="hc-assist-hours mt-2 text-[13.5px] leading-[1.55] text-black/60">
+					{{#is settings.homepage_variant 'search_only'}}
+					{{dc 'hc_-_support_hours_differ'}}
+					{{else}}
+					{{settings.support_hour}}
+					{{/is}}
+				</div>
+			</div>
+		</aside>
 	</div>
-</section>
+</div>
+
+{{#isnt settings.homepage_variant 'search_only'}}
+<script defer type="text/javascript" src="https://prod-au-druid-cdn.azureedge.net/v2/druid_webchat_v2.js"></script>
+<script data-druid-language="{{settings.druid_lang}}" type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function (event) {
+		const botId = "{{settings.druid_bot_id}}".trim();
+		const botQueryParams = "{{settings.druid_query_params}}".split("amp;").join('');
+
+		DruidWebchat_v2.init({
+			botId: botId,
+			baseUrl: "https://druidapi.au.druidplatform.com",
+			queryParams: botQueryParams,
+			UI: {
+				containerElement: document.getElementById('ask-codee')
+			}
+		});
+	});
+</script>
+{{/isnt}}

@@ -14,15 +14,15 @@
 		<span class="hc-eyebrow flex-none !text-[11px] tracking-[0.1em]">{{dc 'hc_-_sorted_by_relevance'}}</span>
 	</div>
 
-	{{#if subfilters}}
-	<nav class="flex flex-wrap gap-2 mt-[18px]" aria-label="{{dc 'hc_-_all_topics'}}">
-		<!-- global.js points this at the same search without a category filter -->
+	<!-- Topic chips. Zendesk only provides subfilters once a content type filter is active,
+	     so when there are none global.js builds the category chips from the Help Center API.
+	     It also points "All topics" at the unfiltered search and reveals the row. -->
+	<nav id="hc-search-topics" class="hidden flex-wrap gap-2 mt-[18px]" aria-label="{{dc 'hc_-_all_topics'}}">
 		<a id="hc-search-all" href="#" class="hc-chip">{{dc 'hc_-_all_topics'}}</a>
 		{{#each subfilters}}
 		<a href="{{url}}" class="hc-chip" {{#if selected}}aria-current="true"{{/if}}>{{name}}</a>
 		{{/each}}
 	</nav>
-	{{/if}}
 
 	<ul id="results" class="mt-7 border-t border-brand/12 scroll-mt-6">
 		{{#each results}}
@@ -81,7 +81,7 @@
 				{{/each}}
 			</ul>
 			{{/if}}
-			<a href="{{page_path 'help_center'}}" class="hc-see-all !mt-[22px]">{{dc 'hc_-_browse_all_topics'}}</a>
+			<a href="{{page_path 'help_center'}}/p/all_topics" class="hc-see-all !mt-[22px]">{{dc 'hc_-_browse_all_topics'}}</a>
 		</div>
 
 		<div class="bg-lavender rounded-3xl p-6 md:p-7">

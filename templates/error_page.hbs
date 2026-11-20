@@ -1,0 +1,35 @@
+<div id="hc-error" class="max-w-[1040px] mx-auto px-5 md:px-14 pt-14 md:pt-24 pb-16 md:pb-24">
+	<div class="max-w-[640px]">
+		{{#is error 'not_found'}}
+		<div class="hc-eyebrow !text-[11px] tracking-[0.14em] !text-brand opacity-60">{{dc 'hc_-_error_404'}}</div>
+		<h1 class="hc-hero-title mt-[18px] mb-0 text-[36px] md:text-[52px] leading-[1.04] font-semibold tracking-[-0.03em] [text-wrap:pretty]">
+			{{dc 'hc_-_page_moved_on'}}
+		</h1>
+		<p class="mt-5 mb-0 !text-[17px] leading-[1.6] text-black/65 [text-wrap:pretty]">{{dc 'hc_-_page_moved_on_text'}}</p>
+		{{else}}
+		<!-- Not signed in, no permission (e.g. internal articles) or temporarily unavailable: Zendesk's own wording -->
+		<h1 class="hc-hero-title m-0 text-[36px] md:text-[52px] leading-[1.04] font-semibold tracking-[-0.03em] [text-wrap:pretty]">
+			{{#is error 'unavailable'}}{{t 'oops'}}{{else}}{{t 'not_authorized'}}{{/is}}
+		</h1>
+		{{/is}}
+
+		<div class="flex flex-wrap gap-3.5 mt-8">
+			<a href="{{page_path 'help_center'}}" class="hc-btn hc-btn--dark max-sm:w-full">{{dc 'hc_-_back_to_help_center'}}</a>
+			<a href="{{page_path 'help_center'}}/p/all_topics" class="hc-btn hc-btn--outline max-sm:w-full">{{dc 'hc_-_browse_all_topics'}}</a>
+		</div>
+	</div>
+
+	<!-- Error pages get no article data: global.js fills this with promoted articles from the API and reveals it -->
+	<div id="hc-error-articles" class="hidden max-w-[560px] mt-16 pt-8 border-t border-brand/12">
+		<div class="hc-eyebrow !text-[10.5px]">{{dc 'hc_-_most_read_articles'}}</div>
+		<ul class="mt-2.5 border-t border-brand/12"></ul>
+		<template>
+			<li>
+				<a class="hc-row !py-4 !px-0 !text-[15.5px]">
+					<span></span>
+					<i class="ph ph-arrow-right"></i>
+				</a>
+			</li>
+		</template>
+	</div>
+</div>
