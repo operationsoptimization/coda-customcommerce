@@ -1,49 +1,36 @@
-<!-- Critical Infobar -->
-<section id="infobar-container" class="w-full flex flex-col">
-	{{#if settings.show_warning_infobar_global}}
-	<div id="infobar-component"
-		class="critical infobar-component w-full flex items-center justify-center bg-crit-infobar-bg h-[60px]">
-		<div role="alert"
-			class="alert w-full bg-transparent flex items-center max-w-7xl mx-auto border-x-0 border-y-0 px-4 py-2 rounded-none shadow-none">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"
-				class="!text-crit-infobar-text">
-				<path
-					d="M236.8,188.09,149.35,36.22h0a24.76,24.76,0,0,0-42.7,0L19.2,188.09a23.51,23.51,0,0,0,0,23.72A24.35,24.35,0,0,0,40.55,224h174.9a24.35,24.35,0,0,0,21.33-12.19A23.51,23.51,0,0,0,236.8,188.09ZM222.93,203.8a8.5,8.5,0,0,1-7.48,4.2H40.55a8.5,8.5,0,0,1-7.48-4.2,7.59,7.59,0,0,1,0-7.72L120.52,44.21a8.75,8.75,0,0,1,15,0l87.45,151.87A7.59,7.59,0,0,1,222.93,203.8ZM120,144V104a8,8,0,0,1,16,0v40a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,180Z">
-				</path>
-			</svg>
-			<div id="infobar-content">
-				<p class="!text-xs sm:!text-sm text-crit-infobar-text font-bold">
-					{{dc "cc_help_center_infobar_content"}}
-				</p>
-			</div>
-		</div>
-	</div>
-	{{/if}}
-
-	<!-- Infobar General -->
-	{{#if settings.show_infobar_global}}
-	<div id="infobar-component"
-		class="infobar-component w-full items-center justfy-center bg-infobar-bg h-[50px] sm:h-[40px]">
-		<div role="alert"
-			class="alert bg-transparent flex items-center max-w-7xl mx-auto border-x-0 border-y-0 px-4 py-2 rounded-none">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256"
-				class="!text-infobar-text">
-				<path
-					d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z">
-				</path>
-			</svg>
-			<div id="infobar-content">
-				<p class="!text-xs sm:!text-sm text-infobar-text font-bold">
-					{{dc "cc_help_center_infobar_content"}}
-				</p>
-			</div>
-			<span class="infobar-dismiss ms-auto cursor-pointer">
-				<i class="ph ph-x text-infobar-text"></i>
-			</span>
-		</div>
-	</div>
-	{{/if}}
-</section>
+<!-- Infobars: 1 critical + 2 general. Each bar's text is a dynamic content item, so it can be
+     translated and changed without a theme release. A general bar's text may start with a
+     <span class="hc-infobar-tag">Flash deal</span> pill and use <strong> (highlight) and <a>.
+     global.js handles dismissing. -->
+{{#if settings.show_warning_infobar_global}}
+<div class="hc-infobar hc-infobar--critical" data-infobar="critical" role="alert">
+	<svg class="hc-infobar-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+		<circle cx="12" cy="12" r="11" fill="var(--color-accent-lime)"></circle>
+		<path d="M12 7v6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"></path>
+		<circle cx="12" cy="16.6" r="1.3" fill="currentColor"></circle>
+	</svg>
+	<span class="hc-infobar-text">{{dc settings.critical_infobar_dc}}</span>
+	<button type="button" class="hc-infobar-dismiss" aria-label="Dismiss">
+		<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+	</button>
+</div>
+{{/if}}
+{{#if settings.show_infobar_global}}
+<div class="hc-infobar hc-infobar--general hc-infobar--{{settings.general_infobar_1_variant}}" data-infobar="general-1">
+	<span class="hc-infobar-text">{{dc settings.general_infobar_1_dc}}</span>
+	<button type="button" class="hc-infobar-dismiss" aria-label="Dismiss">
+		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+	</button>
+</div>
+{{/if}}
+{{#if settings.show_infobar_2_global}}
+<div class="hc-infobar hc-infobar--general hc-infobar--{{settings.general_infobar_2_variant}}" data-infobar="general-2">
+	<span class="hc-infobar-text">{{dc settings.general_infobar_2_dc}}</span>
+	<button type="button" class="hc-infobar-dismiss" aria-label="Dismiss">
+		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+	</button>
+</div>
+{{/if}}
 
 <!-- Navbar -->
 <header class="hc-header w-full bg-navbar-bg border-b border-brand/12">
@@ -56,7 +43,7 @@
 		<div class="flex-1"></div>
 		<nav class="hidden md:flex items-center gap-7">
 			<a href="{{page_path 'new_request'}}" class="text-sm text-black">{{t 'submit_a_request'}}</a>
-			<a href="{{settings.webstore_link}}" target="_blank" rel="noopener" class="flex items-center gap-2 text-sm text-brand">
+			<a href="{{settings.codashop_link}}" target="_blank" rel="noopener" class="flex items-center gap-2 text-sm text-brand">
 				{{dc 'hc_-_visit_codashop_store'}}
 				<i class="ph ph-arrow-right text-sm"></i>
 			</a>
@@ -88,7 +75,7 @@
 	<div id="mobile-drawer" class="hidden md:hidden border-t border-brand/12 px-5 py-4">
 		<div class="flex flex-col gap-4">
 			<a href="{{page_path 'new_request'}}" class="text-[15px] text-black">{{t 'submit_a_request'}}</a>
-			<a href="{{settings.webstore_link}}" target="_blank" rel="noopener" class="flex items-center gap-2 text-[15px] text-brand">
+			<a href="{{settings.codashop_link}}" target="_blank" rel="noopener" class="flex items-center gap-2 text-[15px] text-brand">
 				{{dc 'hc_-_visit_codashop_store'}}
 				<i class="ph ph-arrow-right text-sm"></i>
 			</a>

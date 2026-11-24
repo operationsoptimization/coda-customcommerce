@@ -5,7 +5,6 @@ window.zendeskTranslations = {
 document.addEventListener("DOMContentLoaded", () => {
 	const hamburgBtn = document.getElementById("hamburger-btn");
 	const mobileDrawer = document.getElementById("mobile-drawer");
-	const infobars = document.querySelectorAll(".infobar-component");
 	const searchInput = document.getElementById("query");
 	const copyrightText = document.querySelector(".copyright");
 	const askCodee = document.getElementById("ask-codee");
@@ -30,16 +29,19 @@ document.addEventListener("DOMContentLoaded", () => {
 		copyrightText.innerHTML = `&copy; ${new Date().getFullYear() + " "}`;
 	}
 
-	if (infobars) {
-		infobars.forEach((bar) => {
-			const closeButton = bar.querySelector(".infobar-dismiss");
-
-			if (!closeButton) return;
-			closeButton.addEventListener("click", () => {
-				bar.classList.add("hidden");
-			});
+	// INFOBARS: a dismissed bar stays hidden for the rest of the browser session, until its text changes.
+	document.querySelectorAll(".hc-infobar").forEach((bar) => {
+		const key = `hc-infobar:${bar.dataset.infobar}:${bar.textContent.trim().slice(0, 200)}`;
+		try {
+			if (sessionStorage.getItem(key)) return bar.remove();
+		} catch {}
+		bar.querySelector(".hc-infobar-dismiss").addEventListener("click", () => {
+			bar.remove();
+			try {
+				sessionStorage.setItem(key, "1");
+			} catch {}
 		});
-	}
+	});
 
 	// The {{search}} helper has no dynamic content placeholder, so copy it in from data-placeholder.
 	document.querySelectorAll(".hc-search[data-placeholder]").forEach((wrapper) => {
@@ -299,29 +301,5 @@ document.addEventListener("DOMContentLoaded", () => {
 				})
 				.catch(() => {});
 		}
-	}
-
-	// FORMS
-	const inquirySelect = document.getElementById(
-		"request_custom_fields_10519906052751",
-	);
-	const warningText = document.getElementById("ingame-warning");
-	const submitButton = document.querySelector(
-		'input[type="submit"][name="commit"]',
-	);
-
-	if (inquirySelect) {
-		inquirySelect.addEventListener("change", () => {
-			if (
-				inquirySelect.value === "inquiry_type_cc_in-game_inquiry_" ||
-				inquirySelect.value === "inquiry_type_cc_in-game_txn_"
-			) {
-				submitButton.disabled = true;
-				warningText.classList.remove("hidden");
-			} else {
-				submitButton.disabled = false;
-				warningText.classList.add("hidden");
-			}
-		});
 	}
 });

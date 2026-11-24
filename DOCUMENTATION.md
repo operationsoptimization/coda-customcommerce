@@ -76,9 +76,8 @@ coda-customcommerce/
 │   ├── fonts/                    # Scout font family (.otf source files)
 │   ├── img/                      # Image assets referenced by templates
 │   ├── scripts/                  # JS source — bundled into /script.js
-│   │   ├── index.js              # Entry — imports global.js and forms.js
-│   │   ├── global.js             # Header/nav/mobile-drawer/infobar/copyright
-│   │   └── forms.js              # New-request form: in-game-inquiry guard
+│   │   ├── index.js              # Entry — imports global.js
+│   │   └── global.js             # Header/nav/mobile-drawer/infobar/copyright
 │   ├── styles/                   # CSS source — bundled into /style.css
 │   │   ├── style.css             # Main stylesheet (Tailwind + daisyUI + base)
 │   │   ├── variables.css         # CSS custom properties from manifest settings
@@ -299,7 +298,7 @@ token (substituted at theme-package time).
 
 | Group              | Examples (identifier)                                           |
 |--------------------|-----------------------------------------------------------------|
-| `brand_group_label`     | `logo`, `show_brand_name`, `brand_name`, `favicon`, `webstore_link`, `webstore_helpcenter_link`, `webstore_helpcenter_link_text` |
+| `brand_group_label`     | `logo`, `show_brand_name`, `brand_name`, `favicon`, `codashop_link` |
 | `infobar_group_label`   | `show_infobar_global`, `show_warning_infobar_global`, `infobar_bg_color`, `infobar_text_color`, `critical_infobar_bg_color`, `critical_infobar_text_color` |
 | `colors_group_label`    | `brand_color`, `brand_text_color`, `text_color`, `link_color`, `hover_link_color`, `visited_link_color`, `background_color`, `navbar_background_color`, `footer_background_color`, `accordion_background_color`, `accordion_text_color`, `cta_text_color`, `banner_text_color` |
 | `fonts_group_label`     | `heading_font`, `text_font` (list — system fonts + Scout Black) |
@@ -370,7 +369,7 @@ Common patterns in this theme:
 
 - [templates/header.hbs](templates/header.hbs) — top infobar (general + critical
   variants, toggled via manifest checkboxes) and the navbar (logo, dynamic
-  Contact/Help-Center link, Visit Webstore link, locale switcher, mobile drawer).
+  Contact/Help-Center link, Visit Codashop store link, locale switcher, mobile drawer).
 - [templates/footer.hbs](templates/footer.hbs) — brand name + dynamic copyright
   year (populated by `assets/scripts/global.js`) and Privacy / Terms links.
 - [templates/document_head.hbs](templates/document_head.hbs) — viewport meta +
@@ -398,19 +397,6 @@ below; the bundle is emitted as `/script.js`.
   - Rewrites the **dynamic Contact / Help Center link** in the navbar based on
     current path: if you're on `/requests/new` it points back to Help Center,
     otherwise it points to the new-request form.
-
-### `forms.js`
-
-[assets/scripts/forms.js](assets/scripts/forms.js) — runs on the new-request page:
-
-- Watches the custom field `request_custom_fields_10519906052751` ("Inquiry type").
-- If the selected value is `inquiry_type_cc_in-game_inquiry_` or
-  `inquiry_type_cc_in-game_txn_`, it disables the submit button and shows the
-  `#ingame-warning` element. Otherwise it re-enables submission.
-
-> The numeric custom-field ID is Zendesk-account-specific. When adapting this
-> theme to a new client, confirm the ID matches the target Zendesk instance or
-> update it accordingly.
 
 ---
 
@@ -496,7 +482,6 @@ When bumping versions:
 | Tailwind classes not applied in production               | Class isn't in a scanned path — check `tailwind.config.js` `content` |
 | Manifest setting doesn't appear in Zendesk admin         | Did you upload the new manifest? Re-run `zcli themes:update`|
 | Wrong locale shows English                               | Missing translation key in that locale's JSON               |
-| In-game-inquiry warning never shows                      | Custom-field ID mismatch — verify in Zendesk admin and update `assets/scripts/forms.js` |
 | Mobile drawer toggle does nothing                        | JS bundle stale — re-run `pnpm build`                       |
 | Build hangs on save                                      | Check `watch.mjs` console output; kill orphaned `vite` PIDs |
 

@@ -4,7 +4,7 @@
 			<a href="{{page_path 'help_center'}}" class="block w-max">
 				<img src="{{settings.logo}}" alt="{{settings.brand_name}}" class="h-5 w-auto block opacity-75" />
 			</a>
-			<nav class="flex flex-wrap items-center gap-x-7 gap-y-2">
+			<nav class="flex flex-col sm:flex-row sm:flex-wrap items-start sm:items-center gap-x-7 gap-y-2">
 				<a href="{{page_path 'help_center'}}/p/all_topics" class="hc-footer-link">{{dc 'hc_-_all_topics'}}</a>
 				{{#if settings.show_pp_link}}
 				<a href="{{settings.privacy_link}}" class="hc-footer-link">{{dc 'hc_-_privacy_policy'}}</a>
@@ -12,7 +12,8 @@
 				{{#if settings.show_terms_link}}
 				<a href="{{settings.terms_link}}" class="hc-footer-link">{{dc 'hc_-_terms_and_conditions'}}</a>
 				{{/if}}
-				<a href="{{settings.webstore_link}}" target="_blank" rel="noopener" class="hc-footer-link">{{dc 'hc_-_codashop_store'}}</a>
+				<a href="{{settings.codashop_link}}" target="_blank" rel="noopener" class="hc-footer-link">{{dc
+					'hc_-_codashop_store'}}</a>
 			</nav>
 		</div>
 		<span class="text-[10.5px] font-semibold tracking-[0.1em] uppercase text-black/45">{{settings.hc_label}}</span>

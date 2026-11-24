@@ -28,25 +28,11 @@
 					"label": "favicon_label"
 				},
 				{
-					"identifier": "webstore_link",
+					"identifier": "codashop_link",
 					"type": "text",
-					"description": "webstore_link_description",
-					"label": "webstore_link_label",
+					"description": "codashop_link_description",
+					"label": "codashop_link_label",
 					"value": "https://store.fcm.ea.com/international"
-				},
-				{
-					"identifier": "ws_hc_link_url",
-					"type": "text",
-					"description": "webstore_helpcenter_link_description",
-					"label": "webstore_helpcenter_link_label",
-					"value": "https://help.ea.com/en/help-top-issues/?product=fc-mobile"
-				},
-				{
-					"identifier": "ws_hc_link_label",
-					"type": "text",
-					"description": "webstore_helpcenter_link_text_description",
-					"label": "helpcenter_link_text_label",
-					"value": "EA FC Mobile Help Center"
 				},
 				{
 					"identifier": "support_hour",
@@ -105,42 +91,104 @@
 					"type": "checkbox",
 					"description": "show_infobar_description",
 					"label": "show_infobar_label",
-					"value": false
+					"value": true
+				},
+				{
+					"identifier": "show_infobar_2_global",
+					"type": "checkbox",
+					"description": "show_infobar_2_description",
+					"label": "show_infobar_2_label",
+					"value": true
 				},
 				{
 					"identifier": "show_warning_infobar_global",
 					"type": "checkbox",
 					"description": "show_warning_infobar_description",
 					"label": "show_warning_infobar_label",
-					"value": false
+					"value": true
+				},
+				{
+					"identifier": "critical_infobar_dc",
+					"type": "text",
+					"description": "critical_infobar_dc_description",
+					"label": "critical_infobar_dc_label",
+					"value": "hc_-_critical_infobar_my"
+				},
+				{
+					"identifier": "general_infobar_1_dc",
+					"type": "text",
+					"description": "general_infobar_1_dc_description",
+					"label": "general_infobar_1_dc_label",
+					"value": "hc_-_general_infobar_my"
+				},
+				{
+					"identifier": "general_infobar_2_dc",
+					"type": "text",
+					"description": "general_infobar_2_dc_description",
+					"label": "general_infobar_2_dc_label",
+					"value": "hc_-_general_infobar_my_2"
+				},
+				{
+					"identifier": "general_infobar_1_variant",
+					"type": "list",
+					"description": "general_infobar_1_variant_description",
+					"label": "general_infobar_1_variant_label",
+					"options": [
+						{
+							"label": "Dark (infobar colors)",
+							"value": "dark"
+						},
+						{
+							"label": "Violet",
+							"value": "violet"
+						}
+					],
+					"value": "dark"
+				},
+				{
+					"identifier": "general_infobar_2_variant",
+					"type": "list",
+					"description": "general_infobar_2_variant_description",
+					"label": "general_infobar_2_variant_label",
+					"options": [
+						{
+							"label": "Dark (infobar colors)",
+							"value": "dark"
+						},
+						{
+							"label": "Violet",
+							"value": "violet"
+						}
+					],
+					"value": "violet"
 				},
 				{
 					"identifier": "infobar_bg_color",
 					"type": "color",
 					"description": "infobar_bg_color_description",
 					"label": "infobar_bg_color_label",
-					"value": "#203E4E"
+					"value": "#280031"
 				},
 				{
 					"identifier": "infobar_text_color",
 					"type": "color",
 					"description": "infobar_text_color_description",
 					"label": "infobar_text_color_label",
-					"value": "#fff"
+					"value": "#FFFFFF"
 				},
 				{
 					"identifier": "critical_infobar_bg_color",
 					"type": "color",
 					"description": "critical_infobar_bg_color_description",
 					"label": "critical_infobar_bg_color_label",
-					"value": "#ff6467"
+					"value": "#FF7F98"
 				},
 				{
 					"identifier": "critical_infobar_text_color",
 					"type": "color",
 					"description": "critical_infobar_text_color_description",
 					"label": "critical_infobar_text_color_label",
-					"value": "#fff"
+					"value": "#280031"
 				}
 			]
 		},
@@ -431,7 +479,6 @@
 							"label": "Arial Black",
 							"value": "'Arial Black', Arial, 'Helvetica Neue', Helvetica, sans-serif"
 						},
-
 						{
 							"label": "Scout Black",
 							"value": "scout_black"

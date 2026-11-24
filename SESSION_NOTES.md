@@ -17,7 +17,7 @@ Design source: `artifacts/codashop_help_center.dc.html` (gitignored), plus HTML 
 | Submit request | Built, **not yet previewed** (form fields come from Zendesk; styled in `assets/styles/forms.css`) | `templates/new_request_page.hbs` |
 | 404 | Built (other errors use Zendesk wording; most-read = promoted articles via API) | `templates/error_page.hbs` |
 | All topics (custom page, `/hc/<locale>/p/all_topics`) | Built, **not yet previewed**; data from the HC API | `templates/custom_pages/all_topics.hbs` |
-| Infobar restyle | To do | — |
+| Infobars | Built: 1 critical + 2 general, text from the dc key set per brand in settings critical_infobar_dc / general_infobar_1_dc / general_infobar_2_dc (defaults hc_-_critical_infobar etc., sheet rows 63–65), toggles show_warning_infobar_global / show_infobar_global / show_infobar_2_global, dismissed for the browser session | `templates/header.hbs` |
 
 Uncommitted changes: search results page (`templates/search_results.hbs`, `assets/scripts/global.js`, `assets/styles/home.css`, built `style.css` / `script.js`). Planned commit format: `feat(1.3.0): …`.
 
