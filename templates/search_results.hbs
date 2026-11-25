@@ -56,19 +56,15 @@
 		{{search instant=true submit=true}}
 	</div>
 
-	<div class="max-w-[620px] mt-10 md:mt-12">
-		<div class="hc-eyebrow !text-[11px]">{{dc 'hc_-_no_results'}}</div>
-		<!-- global.js fills {query}; data-count is 0 here -->
-		<h1 class="hc-hero-title mt-3.5 mb-0 text-[26px] md:text-[32px] leading-[1.14] font-semibold"
-			data-label="{{dc 'hc_-_no_results_for_query'}}" data-count="{{results_count}}" data-query="{{query}}">
-			{{t 'no_results_unified'}}
-		</h1>
-		<p class="mt-4 mb-0 !text-base leading-[1.6] text-black/60 [text-wrap:pretty]">{{dc 'hc_-_no_results_tips'}}</p>
-	</div>
-
 	<div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_340px] gap-10 md:gap-16 mt-10 md:mt-12 items-start">
-		<div class="min-w-0">
-			<a href="{{page_path 'help_center'}}/p/all_topics" class="hc-see-all">{{dc 'hc_-_browse_all_topics'}}</a>
+		<div class="min-w-0 max-w-[620px]">
+			<div class="hc-eyebrow !text-[11px]">{{dc 'hc_-_no_results'}}</div>
+			<!-- global.js fills {query}; data-count is 0 here -->
+			<h1 class="hc-hero-title mt-3.5 mb-0 text-[26px] md:text-[32px] leading-[1.14] font-semibold"
+				data-label="{{dc 'hc_-_no_results_for_query'}}" data-count="{{results_count}}" data-query="{{query}}">
+				{{t 'no_results_unified'}}
+			</h1>
+			<p class="mt-4 mb-0 !text-base leading-[1.6] text-black/60 [text-wrap:pretty]">{{dc 'hc_-_no_results_tips'}}</p>
 		</div>
 
 		<div class="bg-lavender rounded-3xl p-6 md:p-7">
