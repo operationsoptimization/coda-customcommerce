@@ -68,20 +68,7 @@
 
 	<div class="grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_340px] gap-10 md:gap-16 mt-10 md:mt-12 items-start">
 		<div class="min-w-0">
-			{{#if promoted_articles}}
-			<div class="hc-eyebrow">{{dc 'hc_-_most_read_articles'}}</div>
-			<ul class="mt-2.5 border-t border-brand/12">
-				{{#each promoted_articles}}
-				<li>
-					<a href="{{url}}" class="hc-row !py-[17px] !px-0 !text-base">
-						<span>{{title}}</span>
-						<i class="ph ph-arrow-right"></i>
-					</a>
-				</li>
-				{{/each}}
-			</ul>
-			{{/if}}
-			<a href="{{page_path 'help_center'}}/p/all_topics" class="hc-see-all !mt-[22px]">{{dc 'hc_-_browse_all_topics'}}</a>
+			<a href="{{page_path 'help_center'}}/p/all_topics" class="hc-see-all">{{dc 'hc_-_browse_all_topics'}}</a>
 		</div>
 
 		<div class="bg-lavender rounded-3xl p-6 md:p-7">

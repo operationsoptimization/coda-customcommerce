@@ -262,24 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
 			.catch(() => {});
 	}
 
-	// ERROR PAGE: up to three promoted articles under "Most read articles"; stays hidden if there are none.
-	const errorArticles = document.getElementById("hc-error-articles");
-	if (errorArticles) {
-		getJson("articles.json?per_page=100")
-			.then(({ articles }) => {
-				const promoted = articles.filter((a) => a.promoted).slice(0, 3);
-				const row = errorArticles.querySelector("template");
-				promoted.forEach((article) => {
-					const item = row.content.firstElementChild.cloneNode(true);
-					item.querySelector("a").href = article.html_url;
-					item.querySelector("span").textContent = article.title;
-					errorArticles.querySelector("ul").append(item);
-				});
-				if (promoted.length) errorArticles.classList.remove("hidden");
-			})
-			.catch(() => {});
-	}
-
 	// HOMEPAGE
 	const seeAllLinks = document.querySelectorAll(".hc-see-all[data-category-id]");
 	const stats = document.getElementById("hc-stats");
