@@ -97,6 +97,18 @@
   </div>
 </section>
 
+<style>
+  .suikoden-themed .article-body a {
+    color: var(--color-suikoden-primary);
+  }
+  .suikoden-themed .article-body a:hover,
+  .suikoden-themed .article-body a:active,
+  .suikoden-themed .article-body a:focus {
+    color: var(--color-suikoden-primary);
+    opacity: 0.8;
+  }
+</style>
+
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     // Extract category name from breadcrumbs
@@ -155,6 +167,12 @@
         secondary: '{{settings.duel_links_secondary_color}}',
         logo: '{{settings.duel_links_logo}}',
         identifier: 'duel-links'
+      },
+      'Suikoden STAR LEAP': {
+        primary: '{{settings.suikoden_primary_color}}',
+        secondary: '{{settings.suikoden_secondary_color}}',
+        logo: '{{settings.suikoden_logo}}',
+        identifier: 'suikoden'
       }
       // Add more games here as needed
     };
