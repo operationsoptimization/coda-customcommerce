@@ -520,7 +520,7 @@
 					"type": "color",
 					"description": "-",
 					"label": "Suikoden STAR LEAP Primary Color",
-					"value": "#1E40AF"
+					"value": "#02015E"
 				},
 				{
 					"identifier": "suikoden_secondary_color",
